@@ -28,19 +28,29 @@
         --muted:#3a4764; --accent:#1d6bff; --border:rgba(3,23,56,.12);
       }
     }
-    *{box-sizing:border-box} html,body{height:100%}
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0; font-family:'Noto Sans KR', system-ui, sans-serif;
       color:var(--text);
       background: radial-gradient(1200px 600px at 80% -20%, rgba(77,163,255,.15), transparent 60%), var(--bg);
       display:flex; flex-direction:column;
     }
+
+    /* 헤더 */
     header{
-      width:100%; padding:18px 20px; position:sticky; top:0; z-index:2;
+      width:100%;
+      padding:18px 20px;
+      position:sticky; top:0; z-index:10;
       backdrop-filter:saturate(1.2) blur(8px);
       background:linear-gradient(to bottom, rgba(0,0,0,.25), transparent);
       border-bottom:1px solid var(--border);
+      transition: transform .28s ease, background-color .28s ease, padding .28s ease;
+      will-change: transform;
+      padding-top: max(12px, calc(18px + env(safe-area-inset-top, 0px)));
     }
+    header.hide{ transform: translateY(-100%); }
     .nav{
       max-width:980px; margin:0 auto; display:flex; align-items:center; gap:14px;
     }
@@ -56,45 +66,86 @@
       padding:10px 14px; border-radius:12px; font-weight:600; font-size:13px;
       text-decoration:none; display:inline-flex; align-items:center; gap:6px;
     }
-    .btn.primary{
-      background:var(--accent); color:#fff;
-    }
-    main{flex:1; display:grid; place-items:center; padding:34px 16px;}
+    .btn.primary{ background:var(--accent); color:#fff; }
+
+    /* 본문 */
+    main{flex:1; display:grid; place-items:center; padding:28px 16px;}
     .card{
       width:100%; max-width:980px; background:var(--card); border:1px solid var(--border);
       border-radius:18px; padding:18px; box-shadow:0 10px 40px rgba(0,0,0,.25);
     }
-    .muted{color:var(--muted); font-size:14px; margin:0 0 14px;}
+    /* 제목/설명 중앙 정렬 + 여백 */
+    .card h1{
+      text-align:center;
+      margin:10px 0 8px;
+    }
+    .card .muted{
+      text-align:center;
+      margin:0 0 20px;
+    }
+
+    /* 위젯 래퍼 */
     .frame-wrap{
       position:relative; border:1px solid var(--border); border-radius:16px;
       overflow:hidden; background:linear-gradient(180deg, rgba(255,255,255,.04), transparent);
-      min-height:420px;
+      min-height: clamp(540px, 70svh, 600px);
+      padding-bottom: max(env(safe-area-inset-bottom, 0px), 0px);
     }
-    iframe{width:100%; height:620px; border:0; display:block;}
+    iframe{
+      width:100%;
+      height: clamp(540px, 70svh, 600px);
+      border:0; display:block;
+    }
     .skeleton{
       position:absolute; inset:0; display:grid; place-items:center;
       background:repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 40px, rgba(255,255,255,.06) 40px 80px);
       animation: shimmer 2s linear infinite;
+      min-height: clamp(540px, 70svh, 600px);
     }
     @keyframes shimmer{0%{background-position:-200px 0} 100%{background-position:200px 0}}
-    .sk-text{
-      color:var(--muted); background:rgba(0,0,0,.35); padding:8px 12px;
-      border-radius:10px; border:1px solid var(--border);
+
+    /* dvh 지원 브라우저에서 더 정확하게 */
+    @supports (height: 100dvh){
+      .frame-wrap,
+      .skeleton,
+      iframe{
+        min-height: clamp(540px, 70dvh, 600px);
+        height: clamp(540px, 70dvh, 600px);
+      }
     }
+
+    /* 작은 화면에서 상단 여백 축소 */
+    @media (max-width: 600px){
+      header{ padding:12px 16px; padding-top: max(8px, calc(12px + env(safe-area-inset-top, 0px))); }
+      main{ padding:20px 12px; }
+    }
+    @media (max-width: 380px){
+      .frame-wrap, .skeleton, iframe{
+        min-height: clamp(520px, 70svh, 580px);
+        height: clamp(520px, 70svh, 580px);
+      }
+      @supports (height: 100dvh){
+        .frame-wrap, .skeleton, iframe{
+          min-height: clamp(520px, 65dvh, 580px);
+          height: clamp(520px, 65dvh, 580px);
+        }
+      }
+    }
+
     footer{
       color:var(--muted); font-size:12px; text-align:center; padding:28px 16px;
     }
   </style>
 </head>
 <body>
-  <header>
+  <header id="site-header">
     <div class="nav">
       <div class="brand">
         CoinKeeper
         <span class="badge">쉽고 빠른 코인 교환 서비스</span>
       </div>
       <div class="actions">
-        <a class="btn primary" href="https://t.me/RENT_FOR_TRX" target="_blank">💬 텔레그램 상담</a>
+        <a class="btn primary" href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener">💬 텔레그램 상담</a>
       </div>
     </div>
   </header>
@@ -102,12 +153,10 @@
   <main>
     <div class="card">
       <h1>안전하고 간편한 코인 스왑</h1>
-      <p class="muted">복잡한 가입 절차 없이, 원하는 코인을 바로 교환하세요.<br>
-      코인키퍼는 안전하고 투명한 거래를 제공합니다.</p>
+      <p class="muted">복잡한 가입 절차 없이, 원하는 코인을 바로 교환하세요.<br>코인키퍼는 안전하고 투명한 거래를 제공합니다.</p>
+
       <div class="frame-wrap" id="wrap">
-        <div class="skeleton" id="sk">
-          <div class="sk-text">로딩 중…</div>
-        </div>
+        <div class="skeleton" id="sk"><div class="sk-text">로딩 중…</div></div>
         <iframe
           id="swapFrame"
           title="SimpleSwap Widget"
@@ -122,11 +171,45 @@
   </footer>
 
   <script>
+    // 연도 표시
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // 스켈레톤 숨김
     const sk = document.getElementById('sk');
     const done = () => { sk.style.opacity='0'; sk.style.pointerEvents='none'; };
     document.getElementById('swapFrame').addEventListener('load', done);
     setTimeout(done, 6000);
+
+    // 헤더 자동 숨김 (스크롤 다운 시 숨김, 업 시 표시)
+    (function(){
+      const header = document.getElementById('site-header');
+      let lastY = window.scrollY;
+      let ticking = false;
+
+      function onScroll(){
+        const y = window.scrollY;
+        const delta = y - lastY;
+
+        if (Math.abs(delta) > 4){ // 노이즈 완화
+          if (delta > 0 && y > 20){
+            // 아래로 스크롤 → 숨김
+            header.classList.add('hide');
+          } else {
+            // 위로 스크롤 또는 상단 근처 → 표시
+            header.classList.remove('hide');
+          }
+          lastY = y;
+        }
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function(){
+        if (!ticking){
+          window.requestAnimationFrame(onScroll);
+          ticking = true;
+        }
+      }, { passive:true });
+    })();
   </script>
 </body>
 </html>
