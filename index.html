@@ -23,20 +23,6 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- ✅ SideShift 오버레이 위젯 설정 -->
-  <script type="text/javascript">
-    window.__SIDESHIFT__ = {
-      parentAffiliateId: "4T7yYkCt6",
-      defaultDepositMethodId: "usdtTrc20",
-      defaultSettleMethodId: "trx",
-      settleAddress: undefined,
-      type: "variable",
-      settleAmount: undefined,
-      theme: "system",         // OS 테마 자동 추종
-    };
-  </script>
-  <script src="https://sideshift.ai/static/js/main.js" defer></script>
-
   <style>
     :root{
       --bg-start:#0c1022; --bg-end:#0f1430; --text:#eaf1ff; --muted:#a8b3ce;
@@ -70,24 +56,40 @@
     .brand{ font-weight:700; font-size:18px; color:var(--brand); letter-spacing:.2px; user-select:none; }
     .actions{ margin-left:auto; display:flex; gap:10px; }
     .btn{ display:inline-flex; align-items:center; justify-content:center; gap:6px; height:36px; padding:0 14px; border-radius:10px; font-weight:600; font-size:13px; text-decoration:none; border:1px solid transparent; }
+
     main{ flex:1; display:grid; place-items:center; padding:36px 16px; }
     .wrap{ width:100%; max-width:1060px; }
     .hero{ text-align:center; margin-bottom:16px; }
     .hero h1{ margin:0 0 10px; font-size:28px; line-height:1.2; letter-spacing:.2px; }
     .hero p{ margin:0; font-size:14px; color:var(--muted); }
-    .card{ background:var(--card); border:1px solid var(--card-border); border-radius:20px; box-shadow:var(--card-shadow); padding:22px; }
+    .card{
+      background:var(--card);
+      border:1px solid var(--card-border);
+      border-radius:20px;
+      box-shadow:var(--card-shadow);
+      padding:22px;
+    }
     .frame-wrap{
-      border:1px solid var(--divider); border-radius:16px; background:var(--frame-bg);
-      min-height:clamp(240px, 42svh, 320px); display:grid; place-items:center; text-align:center; padding:24px;
+      border:1px solid var(--divider);
+      border-radius:16px;
+      background:var(--frame-bg);
+      overflow:hidden;
     }
-    .swap-btn{
-      appearance:none; border:none; cursor:pointer; background:var(--btn); color:var(--btn-text);
-      font-weight:700; font-size:15px; letter-spacing:.2px; padding:14px 20px; border-radius:12px;
-      transition:background .15s ease, transform .12s ease, box-shadow .15s ease; box-shadow:0 10px 30px rgba(0,0,0,.25);
+    /* 임베드 높이: 모바일/데스크톱 대응 */
+    iframe{
+      width:100%;
+      height:clamp(560px, 72svh, 760px);
+      border:0;
+      display:block;
+      background:transparent;
     }
-    .swap-btn:hover{ background:var(--btn-hover); } .swap-btn:active{ transform:translateY(1px); }
-    .hint{ margin-top:10px; font-size:12px; color:var(--muted); }
-    footer{ color:var(--muted); font-size:12px; text-align:center; padding:26px 12px; border-top:1px solid var(--divider); }
+    @media (max-width: 390px){
+      iframe{ height:620px; }
+    }
+    footer{
+      color:var(--muted); font-size:12px; text-align:center; padding:26px 12px;
+      border-top:1px solid var(--divider);
+    }
   </style>
 </head>
 <body>
@@ -108,12 +110,15 @@
       </section>
 
       <section class="card">
-        <!-- ⬇️ 오버레이 방식: 페이지 로드 시 자동 오픈 + 수동 재오픈 버튼 -->
+        <!-- ✅ 오버레이(main.js) 제거, iframe 임베드로 카드 안에 즉시 표시 -->
         <div class="frame-wrap">
-          <div>
-            <button class="swap-btn" onclick="window.sideshift && window.sideshift.show()">스왑창 다시 열기</button>
-            <div class="hint">기본값: USDT(TRC20) → TRX · 테마: 시스템</div>
-          </div>
+          <iframe
+            title="SideShift Swap"
+            src="https://sideshift.ai/embed?affiliateId=4T7yYkCt6&depositMethod=usdtTrc20&settleMethod=trx&theme=system"
+            loading="eager"
+            allow="clipboard-write; clipboard-read"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </section>
     </div>
@@ -124,21 +129,7 @@
   </footer>
 
   <script>
-    // 푸터 연도
     document.getElementById('y').textContent = new Date().getFullYear();
-
-    // 페이지 로드 시 오버레이 자동 오픈
-    (function openSideShiftWhenReady(){
-      const open = () => window.sideshift && typeof window.sideshift.show === 'function' && window.sideshift.show();
-      if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        // 스크립트 로더가 늦게 붙을 수 있으니 폴링로 대기
-        const t = setInterval(() => { if (window.sideshift && window.sideshift.show) { clearInterval(t); open(); } }, 150);
-        // 안전장치: 7초 지나도 못 열었으면 한 번 더 시도
-        setTimeout(open, 7000);
-      } else {
-        document.addEventListener('DOMContentLoaded', open);
-      }
-    })();
   </script>
 </body>
 </html>
