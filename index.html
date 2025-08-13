@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CoinKeeper | 쉽고 빠른 코인 교환</title>
 
+  <!-- www 없는 도메인 → www로 리다이렉트 -->
   <script>
     if (location.hostname === "coinkeeper.pro") {
       location.replace("https://www.coinkeeper.pro" + location.pathname + location.search);
     }
   </script>
 
+  <!-- 메타/공유 -->
   <meta name="description" content="USDT, TRX, BTC 등 다양한 코인을 쉽고 빠르게 교환하세요. CoinKeeper는 안전하고 투명한 거래를 제공합니다." />
   <link rel="canonical" href="https://www.coinkeeper.pro/" />
   <meta property="og:title" content="코인키퍼 | 쉽고 빠른 코인 교환" />
@@ -19,23 +21,18 @@
   <meta property="og:url" content="https://www.coinkeeper.pro/" />
   <meta property="og:image" content="https://www.coinkeeper.pro/og.png" />
 
+  <!-- 파비콘 & iOS 홈화면 아이콘 -->
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@600&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- 폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg:#0b1020; --card:#121a2f; --text:#e8f0ff;
       --muted:#a7b3d1; --accent:#4da3ff; --border:rgba(255,255,255,.08);
       --silver1:#f5f7fb; --silver2:#e3e6ed; --silver3:#c7ccd6; --silver4:#8f98a8;
-      --gold1:#fff2b6; --gold2:#ffd06a; --gold3:#f3a84b; --gold4:#b8792b;
-    }
-    @media (prefers-color-scheme: light){
-      :root{
-        --bg:#f6f8ff; --card:#ffffff; --text:#0b1020;
-        --muted:#3a4764; --accent:#1d6bff; --border:rgba(3,23,56,.12);
-      }
     }
 
     *{box-sizing:border-box}
@@ -49,6 +46,7 @@
       display:flex; flex-direction:column;
     }
 
+    /* 헤더 */
     header{
       width:100%;
       padding:14px 16px;
@@ -63,44 +61,43 @@
 
     .nav{ max-width:980px; margin:0 auto; display:flex; align-items:center; gap:12px; }
 
+    /* 브랜드 텍스트 로고 (실버 + 광택 애니메이션) */
     .brand{
-      display:flex; align-items:center; gap:10px;
-      font-family:'Cinzel','Poppins','Noto Sans KR',serif;
-      letter-spacing:.6px; user-select:none;
-    }
-    .brand .word{
-      font-weight:700; line-height:1; font-size:1.5rem;
+      font-family:'Cinzel','Noto Sans KR',serif;
+      font-weight:700;
+      font-size:1.5rem;      /* 모바일 기본 */
+      letter-spacing:.8px;
+      line-height:1;
+      position:relative;
+      user-select:none;
+      /* 실버 메탈릭 그라디언트 텍스트 */
       background:linear-gradient(180deg, var(--silver1) 0%, var(--silver2) 35%, var(--silver3) 72%, var(--silver4) 100%);
       -webkit-background-clip:text; background-clip:text; color:transparent;
       text-shadow:
         0 1px 0 rgba(255,255,255,.5),
         0 2px 6px rgba(0,0,0,.35);
-      position:relative;
     }
-    .brand .word::after{
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(100deg, transparent 0%, rgba(255,255,255,.35) 35%, transparent 70%);
-      transform:translateX(-120%); transition:transform .9s ease; pointer-events:none; border-radius:6px;
-    }
-    .brand:hover .word::after{ transform:translateX(120%); }
+    /* 잔상/하이라이트 없애고 깨끗하게 시작 */
+    .brand::before{ content:none; }
 
-    .brand .btc{
-      font-family:'Cinzel','Poppins',serif;
-      font-weight:700; font-size:1.2rem; line-height:1;
-      padding:.25rem .5rem; border-radius:999px;
-      background:linear-gradient(180deg, var(--gold1) 0%, var(--gold2) 40%, var(--gold3) 75%, var(--gold4) 100%);
-      color:#3a2b08;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.25) inset,
-        0 4px 14px rgba(0,0,0,.35),
-        0 2px 0 rgba(0,0,0,.3) inset;
-      transform:translateY(1px);
+    /* 은은한 광택 스윕(무한 반복, 저전력) */
+    .brand::after{
+      content:'';
+      position:absolute; inset:0;
+      background:linear-gradient(100deg, transparent 0%, rgba(255,255,255,.28) 35%, transparent 70%);
+      transform:translateX(-130%);
+      animation:shine 8s linear infinite;
+      pointer-events:none; border-radius:6px;
+    }
+    @keyframes shine{
+      0%   { transform:translateX(-130%); }
+      55%  { transform:translateX(130%); }
+      100% { transform:translateX(130%); }
     }
 
     /* 데스크톱에서 로고 크게 */
     @media (min-width:1024px){
-      .brand .word{ font-size:1.8rem; }
-      .brand .btc{ font-size:1.4rem; padding:.3rem .55rem; }
+      .brand{ font-size:1.8rem; }
     }
 
     .actions{ margin-left:auto; }
@@ -113,14 +110,16 @@
     .btn:hover{ filter:brightness(1.06); }
     .btn:active{ transform:scale(0.98); }
 
+    /* 본문 */
     main{ flex:1; display:grid; place-items:center; padding:22px 12px; }
     .card{
       width:100%; max-width:980px; background:var(--card); border:1px solid var(--border);
       border-radius:18px; padding:18px; box-shadow:0 10px 40px rgba(0,0,0,.25);
     }
-    .card h1{ text-align:center; margin:10px 0 8px; font-family:'Poppins','Noto Sans KR',sans-serif; }
+    .card h1{ text-align:center; margin:10px 0 8px; font-family:'Noto Sans KR',sans-serif; }
     .muted{ text-align:center; color:var(--muted); font-size:14px; margin:0 0 20px; }
 
+    /* 위젯 */
     .frame-wrap{
       position:relative; border:1px solid var(--border); border-radius:16px; overflow:hidden;
       background:linear-gradient(180deg, rgba(255,255,255,.04), transparent);
@@ -140,8 +139,9 @@
 
     footer{ color:var(--muted); font-size:12px; text-align:center; padding:24px 12px; }
 
+    /* 모션 최소화 선호 시 애니메이션 비활성화 */
     @media (prefers-reduced-motion: reduce){
-      .brand .word::after{ display:none; }
+      .brand::after, .skeleton{ animation:none !important; }
       .btn, header{ transition:none !important; }
     }
   </style>
@@ -149,11 +149,7 @@
 <body>
   <header id="site-header">
     <div class="nav">
-      <div class="brand" aria-label="CoinKeeper">
-        <span class="word">Coin</span>
-        <span class="btc">₿</span>
-        <span class="word">Keeper</span>
-      </div>
+      <div class="brand" aria-label="COINKEEPER">COINKEEPER</div>
       <div class="actions">
         <a class="btn" href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener">고객센터</a>
       </div>
@@ -185,29 +181,14 @@
   </footer>
 
   <script>
+    // 연도
     document.getElementById('y').textContent = new Date().getFullYear();
 
+    // 로딩 스켈레톤 제거
     const sk = document.getElementById('sk');
     const done = () => { sk.style.opacity='0'; sk.style.pointerEvents='none'; };
     document.getElementById('swapFrame').addEventListener('load', done, { once:true });
     setTimeout(done, 6000);
-
-    (function(){
-      const header = document.getElementById('site-header');
-      let lastY = window.scrollY, ticking = false;
-      function onScroll(){
-        const y = window.scrollY, delta = y - lastY;
-        if (Math.abs(delta) > 4){
-          if (delta > 0 && y > 20) header.classList.add('hide');
-          else header.classList.remove('hide');
-          lastY = y;
-        }
-        ticking = false;
-      }
-      window.addEventListener('scroll', function(){
-        if (!ticking){ requestAnimationFrame(onScroll); ticking = true; }
-      }, { passive:true });
-    })();
   </script>
 </body>
 </html>
