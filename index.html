@@ -5,12 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CoinKeeper | 쉽고 빠른 코인 교환</title>
 
-  <meta name="description" content="코인키퍼는 USDT, TRX, BTC 등 다양한 코인을 쉽고 빠르게 교환할 수 있는 서비스입니다. SimpleSwap 위젯을 기반으로 안전하고 투명한 거래를 제공합니다." />
-  <link rel="canonical" href="https://www.coinkeeper.pro/" />
+  <!-- www 없는 도메인으로 접속 시 자동 리다이렉트 -->
+  <script>
+    if (location.hostname === "coinkeeper.pro") {
+      location.replace("https://www.coinkeeper.pro" + location.pathname + location.search);
+    }
+  </script>
 
-  <!-- Open Graph -->
+  <meta name="description" content="USDT, TRX, BTC 등 다양한 코인을 쉽고 빠르게 교환하세요. CoinKeeper는 SimpleSwap 위젯을 통해 안전하고 투명한 거래를 제공합니다." />
+  <link rel="canonical" href="https://www.coinkeeper.pro/" />
   <meta property="og:title" content="코인키퍼 | 쉽고 빠른 코인 교환" />
-  <meta property="og:description" content="USDT, TRX, BTC 등 다양한 코인을 쉽고 빠르게 교환하세요. 안전하고 투명한 SimpleSwap 기반 서비스입니다." />
+  <meta property="og:description" content="USDT, TRX, BTC 등 다양한 코인을 쉽고 빠르게 교환하세요." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.coinkeeper.pro/" />
   <meta property="og:image" content="https://www.coinkeeper.pro/og.png" />
@@ -38,63 +43,44 @@
       display:flex; flex-direction:column;
     }
 
-    /* 헤더 */
+    /* 헤더: 모바일 상단 여백 축소 + 스크롤 자동 숨김 */
     header{
       width:100%;
-      padding:18px 20px;
+      padding:14px 16px;
+      padding-top: max(10px, calc(14px + env(safe-area-inset-top, 0px)));
       position:sticky; top:0; z-index:10;
       backdrop-filter:saturate(1.2) blur(8px);
       background:linear-gradient(to bottom, rgba(0,0,0,.25), transparent);
       border-bottom:1px solid var(--border);
-      transition: transform .28s ease, background-color .28s ease, padding .28s ease;
+      transition: transform .28s ease, padding .28s ease;
       will-change: transform;
-      padding-top: max(12px, calc(18px + env(safe-area-inset-top, 0px)));
     }
     header.hide{ transform: translateY(-100%); }
-    .nav{
-      max-width:980px; margin:0 auto; display:flex; align-items:center; gap:14px;
-    }
-    .brand{
-      font-weight:700; font-size:18px; display:flex; align-items:center; gap:10px;
-    }
-    .badge{
-      font-size:11px; padding:4px 8px; border:1px solid var(--border);
-      border-radius:999px; color:var(--muted);
-    }
-    .actions{display:flex; gap:8px; margin-left:auto;}
-    .btn{
-      padding:10px 14px; border-radius:12px; font-weight:600; font-size:13px;
-      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
-    }
+
+    .nav{ max-width:980px; margin:0 auto; display:flex; align-items:center; gap:12px; }
+    .brand{ font-weight:700; font-size:18px; display:flex; align-items:center; gap:8px; }
+    .badge{ font-size:11px; padding:4px 8px; border:1px solid var(--border); border-radius:999px; color:var(--muted); }
+    .actions{ margin-left:auto; display:flex; gap:8px; }
+    .btn{ padding:10px 14px; border-radius:12px; font-weight:600; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
     .btn.primary{ background:var(--accent); color:#fff; }
 
-    /* 본문 */
-    main{flex:1; display:grid; place-items:center; padding:28px 16px;}
+    main{ flex:1; display:grid; place-items:center; padding:22px 12px; }
     .card{
       width:100%; max-width:980px; background:var(--card); border:1px solid var(--border);
       border-radius:18px; padding:18px; box-shadow:0 10px 40px rgba(0,0,0,.25);
     }
-    /* 제목/설명 중앙 정렬 + 여백 */
-    .card h1{
-      text-align:center;
-      margin:10px 0 8px;
-    }
-    .card .muted{
-      text-align:center;
-      margin:0 0 20px;
-    }
+    .card h1{ text-align:center; margin:10px 0 8px; }
+    .muted{ text-align:center; color:var(--muted); font-size:14px; margin:0 0 20px; }
 
-    /* 위젯 래퍼 */
+    /* 위젯: 반응형 높이(540~600px), iOS 안전영역 보정 */
     .frame-wrap{
-      position:relative; border:1px solid var(--border); border-radius:16px;
-      overflow:hidden; background:linear-gradient(180deg, rgba(255,255,255,.04), transparent);
+      position:relative; border:1px solid var(--border); border-radius:16px; overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,.04), transparent);
       min-height: clamp(540px, 70svh, 600px);
       padding-bottom: max(env(safe-area-inset-bottom, 0px), 0px);
     }
     iframe{
-      width:100%;
-      height: clamp(540px, 70svh, 600px);
-      border:0; display:block;
+      width:100%; height: clamp(540px, 70svh, 600px); border:0; display:block;
     }
     .skeleton{
       position:absolute; inset:0; display:grid; place-items:center;
@@ -104,25 +90,19 @@
     }
     @keyframes shimmer{0%{background-position:-200px 0} 100%{background-position:200px 0}}
 
-    /* dvh 지원 브라우저에서 더 정확하게 */
+    /* 동적 뷰포트 단위 지원 시 더 정확하게 */
     @supports (height: 100dvh){
-      .frame-wrap,
-      .skeleton,
-      iframe{
+      .frame-wrap, .skeleton, iframe{
         min-height: clamp(540px, 70dvh, 600px);
         height: clamp(540px, 70dvh, 600px);
       }
     }
 
-    /* 작은 화면에서 상단 여백 축소 */
-    @media (max-width: 600px){
-      header{ padding:12px 16px; padding-top: max(8px, calc(12px + env(safe-area-inset-top, 0px))); }
-      main{ padding:20px 12px; }
-    }
+    /* 아주 작은 화면 보정 */
     @media (max-width: 380px){
       .frame-wrap, .skeleton, iframe{
-        min-height: clamp(520px, 70svh, 580px);
-        height: clamp(520px, 70svh, 580px);
+        min-height: clamp(520px, 65svh, 580px);
+        height: clamp(520px, 65svh, 580px);
       }
       @supports (height: 100dvh){
         .frame-wrap, .skeleton, iframe{
@@ -132,9 +112,7 @@
       }
     }
 
-    footer{
-      color:var(--muted); font-size:12px; text-align:center; padding:28px 16px;
-    }
+    footer{ color:var(--muted); font-size:12px; text-align:center; padding:24px 12px; }
   </style>
 </head>
 <body>
@@ -156,7 +134,7 @@
       <p class="muted">복잡한 가입 절차 없이, 원하는 코인을 바로 교환하세요.<br>코인키퍼는 안전하고 투명한 거래를 제공합니다.</p>
 
       <div class="frame-wrap" id="wrap">
-        <div class="skeleton" id="sk"><div class="sk-text">로딩 중…</div></div>
+        <div class="skeleton" id="sk"><div class="sk-text" style="color:var(--muted); background:rgba(0,0,0,.35); padding:8px 12px; border-radius:10px; border:1px solid var(--border);">로딩 중…</div></div>
         <iframe
           id="swapFrame"
           title="SimpleSwap Widget"
@@ -171,16 +149,16 @@
   </footer>
 
   <script>
-    // 연도 표시
+    // 연도 표기
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // 스켈레톤 숨김
+    // 위젯 로딩 완료 시 스켈레톤 제거
     const sk = document.getElementById('sk');
     const done = () => { sk.style.opacity='0'; sk.style.pointerEvents='none'; };
-    document.getElementById('swapFrame').addEventListener('load', done);
-    setTimeout(done, 6000);
+    document.getElementById('swapFrame').addEventListener('load', done, { once:true });
+    setTimeout(done, 6000); // 안전장치
 
-    // 헤더 자동 숨김 (스크롤 다운 시 숨김, 업 시 표시)
+    // 스크롤 방향에 따라 헤더 자동 숨김/표시
     (function(){
       const header = document.getElementById('site-header');
       let lastY = window.scrollY;
@@ -189,25 +167,16 @@
       function onScroll(){
         const y = window.scrollY;
         const delta = y - lastY;
-
-        if (Math.abs(delta) > 4){ // 노이즈 완화
-          if (delta > 0 && y > 20){
-            // 아래로 스크롤 → 숨김
-            header.classList.add('hide');
-          } else {
-            // 위로 스크롤 또는 상단 근처 → 표시
-            header.classList.remove('hide');
-          }
+        if (Math.abs(delta) > 4){
+          if (delta > 0 && y > 20) header.classList.add('hide');   // 아래로 스크롤 → 숨김
+          else header.classList.remove('hide');                     // 위로 스크롤/상단 → 표시
           lastY = y;
         }
         ticking = false;
       }
 
       window.addEventListener('scroll', function(){
-        if (!ticking){
-          window.requestAnimationFrame(onScroll);
-          ticking = true;
-        }
+        if (!ticking){ requestAnimationFrame(onScroll); ticking = true; }
       }, { passive:true });
     })();
   </script>
