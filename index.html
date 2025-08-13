@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>코인키퍼 | 쉽고 빠른 코인 교환</title>
+
+  <meta name="description" content="코인키퍼는 USDT, TRX, BTC 등 다양한 코인을 쉽고 빠르게 교환할 수 있는 서비스입니다. SimpleSwap 위젯을 기반으로 안전하고 투명한 거래를 제공합니다." />
+  <link rel="canonical" href="https://www.coinkeeper.pro/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="코인키퍼 | 쉽고 빠른 코인 교환" />
+  <meta property="og:description" content="USDT, TRX, BTC 등 다양한 코인을 쉽고 빠르게 교환하세요. 안전하고 투명한 SimpleSwap 기반 서비스입니다." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.coinkeeper.pro/" />
+  <meta property="og:image" content="https://www.coinkeeper.pro/og.png" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b1020; --card:#121a2f; --text:#e8f0ff;
+      --muted:#a7b3d1; --accent:#4da3ff; --border:rgba(255,255,255,.08);
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f6f8ff; --card:#ffffff; --text:#0b1020;
+        --muted:#3a4764; --accent:#1d6bff; --border:rgba(3,23,56,.12);
+      }
+    }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{
+      margin:0; font-family:'Noto Sans KR', system-ui, sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 80% -20%, rgba(77,163,255,.15), transparent 60%), var(--bg);
+      display:flex; flex-direction:column;
+    }
+    header{
+      width:100%; padding:18px 20px; position:sticky; top:0; z-index:2;
+      backdrop-filter:saturate(1.2) blur(8px);
+      background:linear-gradient(to bottom, rgba(0,0,0,.25), transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .nav{
+      max-width:980px; margin:0 auto; display:flex; align-items:center; gap:14px;
+    }
+    .brand{
+      font-weight:700; font-size:18px; display:flex; align-items:center; gap:10px;
+    }
+    .badge{
+      font-size:11px; padding:4px 8px; border:1px solid var(--border);
+      border-radius:999px; color:var(--muted);
+    }
+    .actions{display:flex; gap:8px; margin-left:auto;}
+    .btn{
+      padding:10px 14px; border-radius:12px; font-weight:600; font-size:13px;
+      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+    }
+    .btn.secondary{
+      background:transparent; color:var(--text); border:1px solid var(--border);
+    }
+    .btn.primary{
+      background:var(--accent); color:#fff;
+    }
+    main{flex:1; display:grid; place-items:center; padding:34px 16px;}
+    .card{
+      width:100%; max-width:980px; background:var(--card); border:1px solid var(--border);
+      border-radius:18px; padding:18px; box-shadow:0 10px 40px rgba(0,0,0,.25);
+    }
+    .muted{color:var(--muted); font-size:14px; margin:0 0 14px;}
+    .frame-wrap{
+      position:relative; border:1px solid var(--border); border-radius:16px;
+      overflow:hidden; background:linear-gradient(180deg, rgba(255,255,255,.04), transparent);
+      min-height:420px;
+    }
+    iframe{width:100%; height:620px; border:0; display:block;}
+    .skeleton{
+      position:absolute; inset:0; display:grid; place-items:center;
+      background:repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 40px, rgba(255,255,255,.06) 40px 80px);
+      animation: shimmer 2s linear infinite;
+    }
+    @keyframes shimmer{0%{background-position:-200px 0} 100%{background-position:200px 0}}
+    .sk-text{
+      color:var(--muted); background:rgba(0,0,0,.35); padding:8px 12px;
+      border-radius:10px; border:1px solid var(--border);
+    }
+    footer{
+      color:var(--muted); font-size:12px; text-align:center; padding:28px 16px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        🪙 코인키퍼
+        <span class="badge">쉽고 빠른 코인 교환 서비스</span>
+      </div>
+      <div class="actions">
+        <a class="btn secondary" href="https://simpleswap.io/" target="_blank">이용 가이드 보기</a>
+        <a class="btn primary" href="https://t.me/내텔레그램아이디" target="_blank">💬 텔레그램 상담</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h1>안전하고 간편한 코인 스왑</h1>
+      <p class="muted">복잡한 가입 절차 없이, 원하는 코인을 바로 교환하세요.<br>
+      코인키퍼는 SimpleSwap 위젯을 통해 안전하고 투명한 거래를 제공합니다.</p>
+      <div class="frame-wrap" id="wrap">
+        <div class="skeleton" id="sk">
+          <div class="sk-text">위젯 로딩 중…</div>
+        </div>
+        <iframe
+          id="swapFrame"
+          title="SimpleSwap Widget"
+          src="https://simpleswap.io/widget/54eb2f05-7ed1-4bc3-ba88-c72b68c24be8">
+        </iframe>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © <span id="y"></span> CoinKeeper · 모든 권리 보유 · 안전하고 간편한 코인 스왑 서비스
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    const sk = document.getElementById('sk');
+    const done = () => { sk.style.opacity='0'; sk.style.pointerEvents='none'; };
+    document.getElementById('swapFrame').addEventListener('load', done);
+    setTimeout(done, 6000);
+  </script>
+</body>
+</html>
