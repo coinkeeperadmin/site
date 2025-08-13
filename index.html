@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CoinKeeper | 쉽고 빠른 코인 교환</title>
 
+  <!-- 파비콘 / 애플 터치 아이콘 -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/logo.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+  <meta name="theme-color" content="#0b1020" />
+
   <!-- www 없는 도메인으로 접속 시 자동 리다이렉트 -->
   <script>
     if (location.hostname === "coinkeeper.pro") {
@@ -43,7 +49,7 @@
       display:flex; flex-direction:column;
     }
 
-    /* 헤더: 모바일 상단 여백 축소 + 스크롤 자동 숨김 */
+    /* 헤더: 모바일 상단 여백 축소 + 스크롤 자동 숨김 + 인터랙션 */
     header{
       width:100%;
       padding:14px 16px;
@@ -52,17 +58,34 @@
       backdrop-filter:saturate(1.2) blur(8px);
       background:linear-gradient(to bottom, rgba(0,0,0,.25), transparent);
       border-bottom:1px solid var(--border);
-      transition: transform .28s ease, padding .28s ease;
-      will-change: transform;
+      transition: transform .28s ease, padding .28s ease, background-color .2s ease, filter .2s ease;
+      will-change: transform, filter;
     }
+    header:hover{ filter: brightness(1.06); }
+    header:active{ transform: translateY(-1px) scale(0.997); }
     header.hide{ transform: translateY(-100%); }
 
     .nav{ max-width:980px; margin:0 auto; display:flex; align-items:center; gap:12px; }
-    .brand{ font-weight:700; font-size:18px; display:flex; align-items:center; gap:8px; }
-    .badge{ font-size:11px; padding:4px 8px; border:1px solid var(--border); border-radius:999px; color:var(--muted); }
+    .brand{ display:flex; align-items:center; gap:10px; }
+    .brand a{ display:flex; align-items:center; gap:8px; text-decoration:none; }
+    .logo{
+      width:32px; height:32px; display:block; border-radius:8px;
+      object-fit:contain; box-shadow:0 2px 12px rgba(0,0,0,.25);
+      transition: transform .18s ease, filter .18s ease;
+    }
+    .brand a:hover .logo{ filter: brightness(1.08); transform: scale(1.04); }
+    .brand a:active .logo{ transform: scale(0.98); }
+
+    /* 동작 최소화 선호 시 애니메이션 제거 */
+    @media (prefers-reduced-motion: reduce){
+      header, .logo{ transition:none !important; }
+    }
+
     .actions{ margin-left:auto; display:flex; gap:8px; }
     .btn{ padding:10px 14px; border-radius:12px; font-weight:600; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
-    .btn.primary{ background:var(--accent); color:#fff; }
+    .btn.primary{ background:var(--accent); color:#fff; transition:transform .12s ease, filter .12s ease; }
+    .btn.primary:hover{ filter:brightness(1.05); }
+    .btn.primary:active{ transform:scale(0.98); }
 
     main{ flex:1; display:grid; place-items:center; padding:22px 12px; }
     .card{
@@ -110,6 +133,7 @@
           height: clamp(520px, 65dvh, 580px);
         }
       }
+      .logo{ width:30px; height:30px; }
     }
 
     footer{ color:var(--muted); font-size:12px; text-align:center; padding:24px 12px; }
@@ -119,8 +143,10 @@
   <header id="site-header">
     <div class="nav">
       <div class="brand">
-        CoinKeeper
-        <!-- <span class="badge">코인 스왑 서비스</span>  ← 요청대로 제거 -->
+        <!-- 로고 파일: 레포 루트에 logo.png 로 업로드 -->
+        <a href="/" aria-label="홈으로">
+          <img src="/logo.png" alt="CoinKeeper 로고" class="logo" draggable="false" />
+        </a>
       </div>
       <div class="actions">
         <a class="btn primary" href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener">고객센터</a>
@@ -134,7 +160,9 @@
       <p class="muted">복잡한 가입 절차 없이, 원하는 코인을 바로 교환하세요.<br>코인키퍼는 안전하고 투명한 거래를 제공합니다.</p>
 
       <div class="frame-wrap" id="wrap">
-        <div class="skeleton" id="sk"><div class="sk-text" style="color:var(--muted); background:rgba(0,0,0,.35); padding:8px 12px; border-radius:10px; border:1px solid var(--border);">로딩 중…</div></div>
+        <div class="skeleton" id="sk">
+          <div class="sk-text" style="color:var(--muted); background:rgba(0,0,0,.35); padding:8px 12px; border-radius:10px; border:1px solid var(--border);">로딩 중…</div>
+        </div>
         <iframe
           id="swapFrame"
           title="SimpleSwap Widget"
