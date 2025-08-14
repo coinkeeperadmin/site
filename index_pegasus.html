@@ -21,10 +21,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="CoinKeeper — 간편한 코인 스왑">
-  <meta name="theme-color" content="#0b0820"><!-- 퍼플 다크 배경과 맞춤 -->
+  <meta name="theme-color" content="#0b0820">
 
-  <link rel="preconnect" href="https://pegasusswap.com" crossorigin>
-  <link rel="dns-prefetch" href="//pegasusswap.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700&display=swap">
@@ -33,35 +31,24 @@
         media="print" onload="this.media='all'">
 
   <style>
-    /* ===== Purple Theme ===== */
     :root{
-      --bg-start:#0b0820;      /* 짙은 퍼플-네이비 */
+      --bg-start:#0b0820;
       --bg-end:#120f2e;
-      --text:#efeaff;          /* 연보라 화이트 */
-      --muted:#a8a0c7;         /* 보라 기운의 차분한 텍스트 */
+      --text:#efeaff;
+      --muted:#a8a0c7;
       --brand:#efeaff;
-      --btn:#7c3aed;           /* violet-600 계열 */
-      --btn-hover:#6d28d9;     /* violet-700 */
+      --btn:#7c3aed;
+      --btn-hover:#6d28d9;
       --btn-text:#fff;
-      --card:rgba(20,14,46,.46);       /* 유리질 카드 */
+      --card:rgba(20,14,46,.46);
       --card-border:rgba(199,168,255,.20);
       --divider:rgba(255,255,255,.06);
-      --glow:#8b5cf6;          /* violet-500 글로우 */
-      --hero-grad-from:#efeaff;/* 히어로 텍스트 그라디언트 */
+      --glow:#8b5cf6;
+      --hero-grad-from:#efeaff;
       --hero-grad-to:#bca7ff;
-      --radial:#8b5cf6;        /* 배경 라디얼 포인트 */
-    }
-    @media (prefers-color-scheme: light){
-      :root{
-        --bg-start:#f7f5ff; --bg-end:#f0eaff; --text:#140a33; --muted:#6f6591;
-        --brand:#140a33; --btn:#7c3aed; --btn-hover:#6d28d9; --btn-text:#fff;
-        --card:#ffffffcc; --card-border:rgba(124,58,237,.16); --divider:rgba(20,10,51,.08);
-        --glow:#7c3aed; --hero-grad-from:#3b256b; --hero-grad-to:#7c3aed; --radial:#7c3aed;
-      }
+      --radial:#8b5cf6;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,'Noto Sans KR',sans-serif;
@@ -70,8 +57,6 @@
         radial-gradient(880px 380px at 70% -10%, color-mix(in oklab, var(--radial) 28%, transparent), transparent 60%),
         linear-gradient(180deg, var(--bg-start), var(--bg-end));
       display:flex; flex-direction:column;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      letter-spacing:.1px;
     }
 
     header{
@@ -80,72 +65,53 @@
       background:linear-gradient(to bottom, rgba(16,12,36,.55), rgba(16,12,36,0));
       border-bottom:1px solid var(--divider);
     }
-    .nav{ max-width:1040px; margin:0 auto; display:flex; align-items:center; gap:12px; padding:12px 16px; }
-    .brand{ font-weight:700; font-size:18px; color:var(--brand); letter-spacing:.2px; user-select:none; }
-    .actions{ margin-left:auto; display:flex; gap:10px; }
+    .nav{ max-width:1040px; margin:0 auto; display:flex; align-items:center; padding:12px 16px; }
+    .brand{ font-weight:700; font-size:18px; color:var(--brand); }
+    .actions{ margin-left:auto; }
     .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:6px;
+      display:inline-flex; align-items:center; justify-content:center;
       height:36px; padding:0 14px; border-radius:10px; font-weight:600; font-size:13px;
-      text-decoration:none; border:1px solid transparent;
-      transition:transform .12s ease, background .15s ease, filter .15s ease, box-shadow .2s ease;
-      will-change: transform;
+      text-decoration:none;
     }
-    .btn:focus-visible{ outline:2px solid #22d3ee; outline-offset:2px; }
-    .btn.primary{ background:var(--btn); color:var(--btn-text); box-shadow:0 6px 18px rgba(139,92,246,.35); }
-    .btn.primary:hover{ background:var(--btn-hover); box-shadow:0 8px 22px rgba(109,40,217,.45); }
-    .btn:active{ transform:scale(.98); }
+    .btn.primary{ background:var(--btn); color:var(--btn-text); }
 
-    main{ flex:1; display:grid; place-items:center; padding:34px 12px; }
+    main{ flex:1; display:grid; place-items:center; padding:28px 12px; }
     .wrap{ width:100%; max-width:1060px; }
-    .hero{ text-align:center; margin-bottom:18px; }
+    .hero{ text-align:center; margin-bottom:16px; }
     .hero h1{
-      margin:0 0 10px; font-size:28px; line-height:1.25;
-      background:linear-gradient(90deg, var(--hero-grad-from) 0%, var(--hero-grad-to) 100%);
-      -webkit-background-clip:text; background-clip:text; color:transparent; letter-spacing:.3px;
+      margin:0 0 8px; font-size:26px;
+      background:linear-gradient(90deg,var(--hero-grad-from),var(--hero-grad-to));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
     }
     .hero p{ margin:0; font-size:14px; color:var(--muted); }
 
-    .card{ background:transparent; border:none; box-shadow:none; padding:0; }
+    .card{ background:transparent; border:none; padding:0; }
     .frame-wrap{
-      position:relative; overflow:visible; border:none; border-radius:24px;
-      display:flex; align-items:center; justify-content:center;
-      padding:14px; isolation:isolate;
+      position:relative; border-radius:20px; display:flex; justify-content:center;
+      padding:10px; /* 여백 줄임 */
     }
     .frame-surface{
-      position:relative; width:100%; max-width:460px; border-radius:20px;
+      width:100%; max-width:440px; border-radius:18px;
       background:linear-gradient(180deg, var(--card), rgba(18,10,50,.6));
       border:1px solid var(--card-border);
-      box-shadow: 0 20px 60px rgba(56,24,100,.35), inset 0 1px 0 rgba(255,255,255,.06);
+      box-shadow:0 12px 36px rgba(56,24,100,.35);
       backdrop-filter: blur(10px) saturate(1.2);
-      -webkit-backdrop-filter: blur(10px) saturate(1.2);
-    }
-    .frame-wrap::before{
-      content:""; position:absolute; inset:-24px 0 auto 0; height:140px; z-index:-1;
-      background:radial-gradient(60% 80% at 50% 20%, color-mix(in oklab, var(--glow) 42%, transparent), transparent 70%);
-      filter:blur(26px); opacity:.9; pointer-events:none;
     }
 
+    /* 여백 줄인 iframe 높이 */
     .pegasus-iframe{
       width:100%;
-      height:clamp(560px, 72dvh, 760px);
-      border:0; display:block; border-radius:18px;
-      background:transparent;
+      height:clamp(460px, 64dvh, 640px);
+      border:0; border-radius:16px;
     }
 
-    @media (max-width: 480px){
-      .frame-surface{ max-width:100%; border-radius:18px; }
-      .pegasus-iframe{ height:clamp(620px, 84dvh, 840px); border-radius:16px; }
-      .hero h1{ font-size:24px; }
-    }
-    @media (max-height: 600px){
-      .pegasus-iframe{ height:clamp(520px, 86dvh, 680px); }
-    }
-    @supports (height: 100dvh){
-      .pegasus-iframe{ height:clamp(560px, 72dvh, 760px); }
+    @media (max-width:480px){
+      .frame-surface{ max-width:100%; }
+      .pegasus-iframe{ height:clamp(500px, 72dvh, 700px); }
     }
 
     footer{
-      color:var(--muted); font-size:12px; text-align:center; padding:24px 12px;
+      color:var(--muted); font-size:12px; text-align:center; padding:18px 12px;
       border-top:1px solid var(--divider);
     }
   </style>
@@ -155,7 +121,7 @@
     <div class="nav">
       <div class="brand">CoinKeeper</div>
       <div class="actions">
-        <a class="btn primary" href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener" aria-label="텔레그램 고객센터 열기">고객센터</a>
+        <a class="btn primary" href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener">고객센터</a>
       </div>
     </div>
   </header>
@@ -176,8 +142,7 @@
               src="https://pegasusswap.com/widget?deposit=USDT&depositNetwork=TRX&receive=TRX&receiveNetwork=TRX&amount=100&isOptional=true&ref=URNNCCO"
               allowfullscreen
               frameborder="0"
-              scrolling="yes"
-              allow="clipboard-read; clipboard-write">
+              scrolling="yes">
             </iframe>
           </div>
         </div>
