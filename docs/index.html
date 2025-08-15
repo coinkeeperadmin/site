@@ -4,196 +4,81 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>CoinKeeper | 쉽고 빠른 코인 교환</title>
+  <meta name="description" content="복잡한 절차 없이, 누구나 쉽고 빠르게 바로 스왑. 트론 에너지 임대 계산기로 절약금액을 확인하세요.">
+  <meta property="og:title" content="CoinKeeper | 쉽고 빠른 코인 교환">
+  <meta property="og:description" content="누구나 간편하게 바로 스왑 · 트론 에너지 임대">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/og-image.png">
+  <meta name="theme-color" content="#120f2e">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src https://api.coingecko.com; frame-src https://swap.coinkeeper.pro;">
+  <link rel="dns-prefetch" href="//api.coingecko.com">
+  <link rel="preconnect" href="https://api.coingecko.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" media="print" onload="this.media='all'">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <style>
-    :root{
-      --bg-start:#0b0820;
-      --bg-end:#120f2e;
-      --text:#efeaff;
-      --muted:#bfb5d9;
-      --btn:#7c3aed;
-      --btn-text:#fff;
-      --grad-1:#efeaff;
-      --grad-2:#bca7ff;
-      --grad-3:#b48cff;
-      --grad-4:#a879ff;
-      --grid-line:rgba(255,255,255,.08);
-      --grid-fade:rgba(9,6,28,.6);
-      --zoom:1.010;
-    }
+    :root{--bg-start:#0b0820;--bg-end:#120f2e;--text:#efeaff;--muted:#cbbfe3;--btn:#7c3aed;--btn-2:#a879ff;--btn-text:#fff}
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{
-      margin:0;
-      font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(880px 380px at 70% -10%, color-mix(in oklab, #8b5cf6 28%, transparent), transparent 60%),
-        linear-gradient(180deg, var(--bg-start), var(--bg-end));
-      overflow-x:hidden;
-    }
-    .grid3d{position:fixed; inset:0; z-index:-1; pointer-events:none}
-    .grid3d::before{
-      content:"";
-      position:absolute; left:50%; bottom:-12vh; width:140vmax; height:120vmax; transform:translateX(-50%) perspective(900px) rotateX(62deg);
-      background:
-        radial-gradient(ellipse at center, rgba(139,92,246,.35) 0 120px, transparent 320px),
-        repeating-linear-gradient(to right, var(--grid-line) 0 1px, transparent 1px 64px),
-        repeating-linear-gradient(to bottom, var(--grid-line) 0 1px, transparent 1px 64px);
-      filter:drop-shadow(0 40px 120px rgba(139,92,246,.28));
-      mask-image:linear-gradient(to top, var(--grid-fade), transparent 60%);
-    }
-    header{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter: blur(10px) saturate(1.2);
-      background:linear-gradient(to bottom, rgba(16,12,36,.55), rgba(16,12,36,0));
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .nav{ max-width:1120px; margin:0 auto; display:flex; align-items:center; gap:8px; padding:12px 16px }
-    .brand{
-      font-weight:700; font-size:22px; letter-spacing:.2px; line-height:1;
-      background:linear-gradient(90deg,var(--grad-1),var(--grad-2));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
-      filter:drop-shadow(0 4px 12px rgba(139,92,246,.35));
-      min-width:0;
-    }
-    .actions{
-      margin-left:auto;
-      display:grid;
-      grid-auto-flow:column;
-      grid-auto-columns:max-content;
-      gap:8px;
-      align-items:center;
-      white-space:nowrap;
-    }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      height:36px; padding:0 14px; border-radius:10px; font-weight:700; font-size:13px; text-decoration:none;
-      background:var(--btn); color:var(--btn-text)
-    }
-    .more{ position:relative }
-    .more-btn{
-      display:inline-flex; align-items:center; gap:6px;
-      height:36px; padding:0 12px; border-radius:10px; font-weight:700; font-size:13px;
-      background:rgba(255,255,255,.06); color:var(--text); border:1px solid rgba(255,255,255,.12);
-      cursor:pointer; white-space:nowrap;
-    }
+    body{margin:0;font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:radial-gradient(880px 380px at 70% -10%, color-mix(in oklab, #8b5cf6 28%, transparent), transparent 60%),linear-gradient(180deg, var(--bg-start), var(--bg-end));overflow-x:hidden}
+    .no-scroll{overflow:hidden;position:fixed;width:100%}
+    .grid3d{position:fixed;inset:0;z-index:-1;pointer-events:none}
+    .grid3d::before{content:"";position:absolute;left:50%;bottom:-12vh;width:140vmax;height:120vmax;transform:translateX(-50%) perspective(900px) rotateX(62deg);background:radial-gradient(ellipse at center, rgba(139,92,246,.35) 0 120px, transparent 320px),repeating-linear-gradient(to right, rgba(255,255,255,.08) 0 1px, transparent 1px 64px),repeating-linear-gradient(to bottom, rgba(255,255,255,.08) 0 1px, transparent 1px 64px);filter:drop-shadow(0 40px 120px rgba(139,92,246,.28));mask-image:linear-gradient(to top, rgba(9,6,28,.6), transparent 60%)}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px) saturate(1.2);background:linear-gradient(to bottom, rgba(16,12,36,.55), rgba(16,12,36,0));border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:12px 16px}
+    .brand{font-weight:800;font-size:22px;letter-spacing:.2px;line-height:1;background:linear-gradient(90deg,#efeaff,#bca7ff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 12px rgba(139,92,246,.35));min-width:0}
+    .actions{margin-left:auto;display:grid;grid-auto-flow:column;grid-auto-columns:max-content;gap:8px;align-items:center;white-space:nowrap}
+    .btn-top{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 14px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;background:var(--btn);color:var(--btn-text)}
+    .more{position:relative}
+    .more-btn{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:10px;font-weight:700;font-size:13px;background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.12);cursor:pointer;white-space:nowrap}
     .chev{width:14px;height:14px;display:inline-block;transform:translateY(1px)}
-    .menu{
-      position:absolute; right:0; top:44px; min-width:240px;
-      background:rgba(20,10,40,.72); border:1px solid rgba(199,168,255,.22); border-radius:12px;
-      box-shadow:0 18px 50px rgba(20,10,60,.42);
-      backdrop-filter:blur(10px) saturate(1.2);
-      padding:8px; display:none;
-    }
+    .menu{position:absolute;right:0;top:44px;min-width:240px;background:#120e25;border:1px solid rgba(199,168,255,.35);border-radius:12px;box-shadow:0 18px 50px rgba(12,6,26,.65);padding:8px;display:none}
     .menu.open{display:block}
-    .menu a{
-      display:flex; align-items:center; gap:10px; text-decoration:none; color:#efeaff;
-      padding:10px 12px; border-radius:8px; font-weight:600; font-size:14px;
-    }
-    .menu a:hover{ background:rgba(199,168,255,.12) }
-    main{ display:grid; place-items:center; padding:28px 12px 48px }
-    .wrap{ width:100%; max-width:1120px }
-    .hero{ text-align:center }
-    .headline{
-      margin:18px 0 0; letter-spacing:.02em;
-      font-weight:900;
-      font-size:clamp(56px,11vw,168px);
-      line-height:.96;
-      text-transform:uppercase;
-      filter:drop-shadow(0 8px 22px rgba(139,92,246,.28))
-    }
-    .headline .keep{ display:block; color:#fff }
-    .headline .simple{
-      display:block;
-      background:linear-gradient(90deg,#cbb4ff 0%,var(--grad-3) 46%,var(--grad-4) 70%,#cbb4ff 100%);
-      -webkit-background-clip:text; background-clip:text; color:transparent
-    }
-    .headline-line{
-      width:80px; height:3px; margin:16px auto 14px; border-radius:2px;
-      background:linear-gradient(90deg,var(--grad-2),var(--grad-4));
-    }
-    .sub{ margin:12px 0 26px; font-size:18px; color:var(--muted); line-height:1.5 }
-    .trust{
-      display:grid; grid-template-columns:repeat(3,auto); justify-content:center; gap:12px; margin:0 auto 18px;
-    }
-    .badge{
-      display:flex; align-items:center; gap:6px; padding:6px 10px; border-radius:12px;
-      background:rgba(255,255,255,.05); border:1px solid rgba(199,168,255,.22);
-      font-size:14px; color:#d8d2ef; white-space:nowrap; transition:all .28s ease;
-    }
-    .badge:hover{ background:rgba(199,168,255,.12); box-shadow:0 0 12px rgba(172,126,255,.45); transform:translateY(-3px) }
+    .menu a{display:flex;align-items:center;gap:10px;text-decoration:none;color:#ffffff;padding:10px 12px;border-radius:8px;font-weight:700;font-size:14px}
+    .menu a:hover{background:#271b4b}
+    main{display:grid;place-items:center;padding:28px 12px 48px}
+    .wrap{width:100%;max-width:1120px}
+    .hero{text-align:center}
+    .headline{margin:18px 0 0;letter-spacing:.02em;font-weight:900;font-size:clamp(56px,11vw,168px);line-height:.96;text-transform:uppercase;filter:drop-shadow(0 8px 22px rgba(139,92,246,.28))}
+    .headline .keep{display:block;color:#fff}
+    .headline .simple{display:block;background:linear-gradient(90deg,#cbb4ff 0%,#b48cff 46%,#a879ff 70%,#cbb4ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .headline-line{width:80px;height:3px;margin:16px auto 14px;border-radius:2px;background:linear-gradient(90deg,#bca7ff,#a879ff)}
+    .sub{margin:12px 0 26px;font-size:18px;color:#bfb5d9;line-height:1.5}
+    .trust{display:grid;grid-template-columns:repeat(3,auto);justify-content:center;gap:12px;margin:0 auto 18px}
+    .badge{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(199,168,255,.22);font-size:14px;color:#d8d2ef;white-space:nowrap;transition:all .28s ease}
+    .badge:hover{background:rgba(199,168,255,.12);box-shadow:0 0 12px rgba(172,126,255,.45);transform:translateY(-3px)}
     .ic{width:18px;height:18px;flex:0 0 18px}
-    .swap-wrap{ width:min(100%,560px); margin:8px auto 0 }
-    .swap-crop{
-      position:relative; width:100%;
-      height:clamp(520px, 72dvh, 680px);
-      border-radius:18px; overflow:hidden;
-      box-shadow:0 24px 80px rgba(20,10,60,.45);
-      z-index:0;
-    }
-    .pegasus-iframe{
-      position:absolute; inset:0; width:100%; height:100%;
-      border:none; outline:none; box-shadow:none; background:transparent;
-      transform:scale(var(--zoom)); transform-origin:center; will-change:transform;
-      display:block;
-    }
-    .energy-fab{
-      position:fixed;
-      left:12px; right:12px;
-      bottom:calc(env(safe-area-inset-bottom) + 12px);
-      background:rgba(20,10,40,.9);
-      border:1px solid rgba(199,168,255,.22);
-      border-radius:16px;
-      backdrop-filter:blur(10px) saturate(1.2);
-      box-shadow:0 18px 60px rgba(20,10,60,.5);
-      padding:14px;
-      z-index:60;
-      transform:translateY(12px);
-      opacity:0;
-      transition:transform .28s ease, opacity .28s ease;
-      display:none;
-      max-width:640px;
-      margin:0 auto;
-    }
-    .energy-fab.show{display:block; transform:translateY(0); opacity:1}
-    .energy-fab.hide{opacity:0; pointer-events:none}
-    .energy-fab .top{display:flex; gap:10px; align-items:center; margin-bottom:10px}
-    .energy-fab .title{font-weight:900; font-size:18px}
-    .energy-fab .desc{color:#cbbfe3; font-size:13px; margin-left:32px}
-    .energy-fab .cta{
-      margin-top:8px; width:100%;
-      display:flex; align-items:center; justify-content:center; gap:8px;
-      padding:12px 14px; border-radius:12px; font-weight:900; font-size:15px; text-decoration:none;
-      background:linear-gradient(90deg,#7c3aed,#a879ff); color:#fff;
-      box-shadow:0 12px 28px rgba(139,92,246,.35);
-    }
-    .energy-fab .close{
-      position:absolute; right:8px; top:8px;
-      width:28px; height:28px; border:none; border-radius:999px;
-      background:rgba(255,255,255,.06); color:#fff; cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-    }
-    @media (max-width: 520px){
-      .brand{font-size:18px; letter-spacing:.1px}
-      .actions{gap:6px}
-      .more-btn, .btn{height:32px; padding:0 10px; font-size:12px; border-radius:9px}
-      .chev{width:12px;height:12px}
-      .menu{top:40px}
-      .headline{ line-height:1.05 }
-      .headline .keep, .headline .simple{ line-height:1.05; margin:0 }
-      .headline .simple{ margin-top:-4px }
-      .sub{ margin:10px 0 20px }
-      :root{ --zoom:1.006 }
-      .swap-crop{ height:60dvh }
-    }
-    @media (max-width: 380px){
-      .brand{font-size:17px}
-      .more-btn, .btn{padding:0 8px; font-size:11px}
-    }
-    footer{ color:#a8a0c7; font-size:12px; text-align:center; padding:18px 12px; border-top:1px solid rgba(255,255,255,.06) }
+    .ic-bolt{filter:drop-shadow(0 0 8px rgba(168,121,255,.45))}
+    .swap-wrap{width:min(100%,560px);margin:8px auto 0}
+    .swap-crop{position:relative;width:100%;height:clamp(520px,72dvh,680px);border-radius:18px;overflow:hidden;box-shadow:0 24px 80px rgba(20,10,60,.45);z-index:0}
+    .fab-trigger{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom) + 12px);width:56px;height:56px;border-radius:999px;background:linear-gradient(135deg,var(--btn),var(--btn-2));color:#fff;border:1px solid rgba(255,255,255,.18);box-shadow:0 12px 32px rgba(20,10,60,.6);display:flex;align-items:center;justify-content:center;z-index:5001;transition:transform .12s ease}
+    .fab-trigger:active{transform:scale(.96)}
+    .energy-fab{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 12px);width:calc(100% - 24px);margin:0 auto;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 22%),linear-gradient(180deg, rgba(20,10,40,.95), rgba(14,7,30,.92));padding:12px 16px;box-shadow:0 20px 60px rgba(20,10,60,.55);backdrop-filter:blur(10px) saturate(1.2);overflow:hidden;z-index:5002;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .24s ease, transform .28s cubic-bezier(.2,.8,.2,1)}
+    .energy-fab[data-open="1"]{opacity:1;transform:translateY(0);pointer-events:auto}
+    .fab-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .fab-title{font-weight:900;font-size:20px}
+    .fab-desc{font-weight:700;font-size:13px;color:#dcd4ff;margin-top:4px}
+    .close{width:32px;height:32px;border:none;border-radius:999px;background:rgba(255,255,255,.06);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .fab-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    .btn-sec,.btn-prim{display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border-radius:12px;font-weight:900;font-size:15px;text-decoration:none;cursor:pointer}
+    .btn-sec{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(199,168,255,.25)}
+    .btn-prim{background:linear-gradient(90deg,var(--btn),var(--btn-2));color:#fff;box-shadow:0 12px 28px rgba(139,92,246,.35)}
+    .fab-panel{margin-top:12px;background:rgba(10,7,26,.55);border:1px solid rgba(199,168,255,.18);border-radius:14px;padding:12px;transform:translateY(12px);opacity:0;max-height:0;pointer-events:none;transition:max-height .32s ease,opacity .24s ease,transform .32s ease}
+    .fab-panel[data-open="1"]{transform:translateY(0);opacity:1;max-height:360px;pointer-events:auto}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .panel-title{font-weight:800;font-size:15px}
+    .panel-close{width:28px;height:28px;border:none;border-radius:999px;background:rgba(255,255,255,.06);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .calc{display:grid;gap:10px}
+    .calc label{font-size:12px;color:#cfc6e6;display:block;margin-bottom:4px}
+    .calc input{width:100%;height:42px;border-radius:12px;border:1px solid rgba(199,168,255,.28);background:rgba(255,255,255,.06);color:#fff;padding:0 12px;font-weight:800;font-size:16px}
+    .result{margin-top:8px;padding:16px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(199,168,255,.22);text-align:center}
+    .result .sum{font-size:18px;font-weight:900}
+    .result .num{font-size:28px;font-weight:900;margin:4px 0}
+    .result .krw{font-size:18px;font-weight:900}
+    .price-note{margin-top:6px;font-size:11px;color:#bfb5d9;text-align:right}
+    @media (max-width:520px){.swap-crop{height:60dvh}.energy-fab{padding:10px 14px}.btn-sec,.btn-prim{height:42px;font-size:14px}}
+    @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}.energy-fab{transition:none}.fab-panel{transition:none}}
+    footer{color:#a8a0c7;font-size:12px;text-align:center;padding:18px 12px;border-top:1px solid rgba(255,255,255,.06)}
   </style>
 </head>
 <body>
@@ -205,33 +90,35 @@
         <div class="more">
           <button class="more-btn" id="moreBtn" aria-haspopup="true" aria-expanded="false">
             추가 서비스
-            <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#d9cff9" stroke-width="2" stroke-linecap="round"/></svg>
+            <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#d9cff9" stroke-width="2.4" stroke-linecap="round"/></svg>
           </button>
           <div class="menu" id="moreMenu" role="menu" aria-label="추가 제공 서비스">
-            <a href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener" role="menuitem">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 2L6 14h6l-1 8 7-12h-6l1-8z" fill="rgba(139,92,246,.85)"/></svg>
+            <a href="https://t.me/RENT_FOR_TRX_BOT" target="_blank" rel="noopener" role="menuitem">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M13 2L6 14h6l-1 8 7-12h-6l1-8z" fill="rgba(139,92,246,.85)"/></svg>
               트론 에너지 임대 서비스
             </a>
-            <a href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener" role="menuitem">
+            <a href="https://t.me/RENT_FOR_TRX_BOT" target="_blank" rel="noopener" role="menuitem">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9.5 12.5l9-6.5-3.2 12.6c-.1.4-.6.5-.9.3l-4-3-2.1 2c-.3.2-.8.1-.9-.3l.8-3.1 9.5-8.1" stroke="#cbb4ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
               텔레그램 프리미엄 간편 구매
             </a>
           </div>
         </div>
-        <a class="btn" href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener">고객센터</a>
+        <a class="btn-top" href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener">고객센터</a>
       </div>
     </div>
   </header>
+
   <main>
     <div class="wrap">
       <section class="hero">
         <h1 class="headline">
-          <span class="keep">KEEP IT</span>
-          <span class="simple">SIMPLE</span>
+          <span class="keep" id="headlineKeep">KEEP IT</span>
+          <span class="simple" id="headlineSimple">SIMPLE</span>
         </h1>
         <div class="headline-line"></div>
         <p class="sub">복잡한 절차 없이, 누구나 쉽고 빠르게 바로 스왑</p>
       </section>
+
       <section class="trust">
         <div class="badge">
           <svg class="ic" viewBox="0 0 24 24" fill="none">
@@ -247,76 +134,233 @@
           1000+ 코인
         </div>
         <div class="badge">
-          <svg class="ic" viewBox="0 0 24 24" fill="none">
-            <path d="M13 2l-2 8h5l-5 12 2-8H8l5-12z" fill="rgba(139,92,246,.22)"/>
+          <svg class="ic ic-bolt" viewBox="0 0 24 24">
+            <defs>
+              <linearGradient id="boltGrad" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#bca7ff"/><stop offset="100%" stop-color="#7c3aed"/>
+              </linearGradient>
+            </defs>
+            <path d="M13 2l-2 8h5l-5 12 2-8H8l5-12z" fill="url(#boltGrad)"/>
           </svg>
           즉시 스왑
         </div>
       </section>
-      <section class="swap-wrap">
-        <div class="swap-crop">
-          <iframe class="pegasus-iframe" title="PegasusSwap Widget" src="https://swap.coinkeeper.pro/embed" allowfullscreen frameborder="0" scrolling="yes"></iframe>
+
+      <section class="swap-wrap" id="swapWrap">
+        <div class="swap-crop" id="swapCrop">
+          <iframe src="https://swap.coinkeeper.pro/embed" loading="eager" referrerpolicy="no-referrer" allowfullscreen frameborder="0" scrolling="no" style="position:absolute; inset:0; width:100%; height:100%; border:none; outline:none; background:transparent;"></iframe>
         </div>
       </section>
     </div>
   </main>
-  <div class="energy-fab" id="energyFab" aria-live="polite" aria-label="트론 에너지 임대 서비스">
-    <button class="close" id="fabClose" aria-label="닫기">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-    </button>
-    <div class="top">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M13 2L6 14h6l-1 8 7-12h-6l1-8z" fill="rgba(139,92,246,.85)"/></svg>
-      <div class="title">트론 에너지 임대 서비스</div>
+
+  <button class="fab-trigger" id="fabTrigger" aria-label="에너지 임대 서비스 열기" title="에너지 임대">
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <defs>
+        <linearGradient id="trigGrad" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#efeaff"/><stop offset="100%" stop-color="#bca7ff"/>
+        </linearGradient>
+      </defs>
+      <path d="M13 2L6 14h6l-1 8 7-12h-6l1-8z" fill="url(#trigGrad)"/>
+    </svg>
+  </button>
+
+  <div class="energy-fab" id="energyFab" data-open="0" aria-live="polite" role="dialog" aria-modal="true" aria-labelledby="fabTitle" aria-describedby="fabDesc">
+    <div class="fab-row">
+      <div>
+        <div class="fab-title" id="fabTitle">트론 에너지 임대 서비스</div>
+        <div class="fab-desc" id="fabDesc"><strong>USDT-TRC20</strong> 전송수수료를 에너지로 절약하세요</div>
+      </div>
+      <button class="close" id="fabClose" aria-label="닫기">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
     </div>
-    <div class="desc"><strong>USDT-TRC20</strong> 전송 수수료를 에너지로 절약하세요</div>
-    <a class="cta" href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener">
-      더 알아보기
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M7 12h10M13 6l4 6-4 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+
+    <div class="fab-actions">
+      <button class="btn-sec" id="openCalc">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="btnGrad1" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#bca7ff"/><stop offset="100%" stop-color="#7c3aed"/>
+            </linearGradient>
+          </defs>
+        <path d="M3 12h12m-6-6l6 6-6 6" fill="none" stroke="url(#btnGrad1)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        절약금액 확인
+      </button>
+      <a class="btn-prim" href="https://t.me/RENT_FOR_TRX_BOT" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="btnGrad2" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#efeaff"/><stop offset="100%" stop-color="#bca7ff"/>
+            </linearGradient>
+          </defs>
+        <path d="M7 12h10M13 6l4 6-4 6" fill="none" stroke="url(#btnGrad2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        이용하러 가기
+      </a>
+    </div>
+
+    <div class="fab-panel" id="fabPanel" data-open="0">
+      <div class="panel-head">
+        <div class="panel-title">에너지 임대 계산기</div>
+        <button class="panel-close" id="panelClose" aria-label="계산기 닫기">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="calc">
+        <div>
+          <label for="txCount">이용 횟수</label>
+          <input id="txCount" type="number" min="1" step="1" value="1" inputmode="numeric">
+        </div>
+      </div>
+      <div class="result">
+        <div class="sum" id="summary">1회 이용 시</div>
+        <div class="num" id="grossTrx">11 TRX 절약</div>
+        <div class="krw" id="grossKrw">₩0 절약</div>
+      </div>
+      <div class="price-note" id="priceNote">시세 불러오는 중…</div>
+    </div>
   </div>
+
   <footer>
     © <span id="y"></span> CoinKeeper · 모든 권리 보유 · 안전하고 간편한 코인 스왑 서비스
   </footer>
+
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-    const btn=document.getElementById('moreBtn');
-    const menu=document.getElementById('moreMenu');
-    btn?.addEventListener('click',e=>{e.stopPropagation(); const open=menu.classList.toggle('open'); btn.setAttribute('aria-expanded',open)});
-    document.addEventListener('click',()=>{menu.classList.remove('open'); btn?.setAttribute('aria-expanded','false')});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'){menu.classList.remove('open'); btn?.setAttribute('aria-expanded','false')}});
-    const fab=document.getElementById('energyFab');
-    const fabClose=document.getElementById('fabClose');
-    const shouldShow=sessionStorage.getItem('energyFabDismissed')!=='1';
+    const CFG={seenKey:'ck_fab_seen_v11',perUseSave:11,priceKey:'ck_trx_krw_v1',priceTTL:3600*1000}
+    document.getElementById('y').textContent=new Date().getFullYear()
+    const fab=document.getElementById('energyFab')
+    const trigger=document.getElementById('fabTrigger')
+    const closeBtn=document.getElementById('fabClose')
+    const openCalcBtn=document.getElementById('openCalc')
+    const panel=document.getElementById('fabPanel')
+    const panelClose=document.getElementById('panelClose')
+    const swapWrap=document.getElementById('swapWrap')
+    const swapCrop=document.getElementById('swapCrop')
+    const keep=document.getElementById('headlineKeep')
+    const simple=document.getElementById('headlineSimple')
+    const btn=document.getElementById('moreBtn')
+    const menu=document.getElementById('moreMenu')
+
+    let scrollLockY=0
+    function lockScroll(){scrollLockY=window.scrollY;document.body.classList.add('no-scroll');document.body.style.top=`-${scrollLockY}px`}
+    function unlockScroll(){document.body.classList.remove('no-scroll');document.body.style.top='';window.scrollTo(0,scrollLockY)}
+
+    function showFab(){fab.setAttribute('data-open','1');matchFabToSwap();lockScroll();focusFirst()}
+    function hideFab(){fab.setAttribute('data-open','0');unlockScroll()}
+
+    const seen=localStorage.getItem(CFG.seenKey)==='1'
+    if(!seen){showFab();localStorage.setItem(CFG.seenKey,'1')}
+    trigger.addEventListener('click',showFab)
+    closeBtn.addEventListener('click',hideFab)
+
+    openCalcBtn.addEventListener('click',()=>{panel.setAttribute('data-open','1')})
+    panelClose.addEventListener('click',()=>{panel.setAttribute('data-open','0')})
+
     function matchFabToSwap(){
-      const swap=document.querySelector('.swap-wrap');
-      if(!swap||!fab) return;
-      const mq=window.matchMedia('(min-width: 840px)');
+      const mq=window.matchMedia('(min-width: 840px)')
+      if(!fab||!swapWrap) return
       if(mq.matches){
-        const r=swap.getBoundingClientRect();
-        fab.style.left=Math.round(r.left)+'px';
-        fab.style.right='auto';
-        fab.style.width=Math.round(r.width)+'px';
-        fab.style.margin='0';
+        const r=(swapCrop||swapWrap).getBoundingClientRect()
+        fab.style.left=Math.round(r.left)+'px'
+        fab.style.right='auto'
+        fab.style.width=Math.round(r.width)+'px'
+        fab.style.maxWidth=Math.round(r.width)+'px'
+        fab.style.margin='0'
+        fab.style.paddingTop='12px'
+        fab.style.paddingBottom='12px'
       }else{
-        fab.style.left='';
-        fab.style.right='';
-        fab.style.width='';
-        fab.style.margin='';
+        fab.style.left=''
+        fab.style.right=''
+        fab.style.width=''
+        fab.style.maxWidth=''
+        fab.style.margin=''
+        fab.style.paddingTop=''
+        fab.style.paddingBottom=''
       }
     }
-    if(shouldShow){
-      setTimeout(()=>{
-        fab.classList.add('show');
-        matchFabToSwap();
-      },1000);
-      const hideNearFooter=new IntersectionObserver(entries=>{
-        entries.forEach(e=>{ if(e.isIntersecting){ fab.classList.add('hide'); } else { fab.classList.remove('hide'); } });
-      },{rootMargin:'0px 0px -40% 0px'});
-      hideNearFooter.observe(document.querySelector('footer'));
-      fabClose.addEventListener('click',()=>{ fab.classList.remove('show'); sessionStorage.setItem('energyFabDismissed','1'); });
-      window.addEventListener('resize', matchFabToSwap, {passive:true});
-      window.addEventListener('scroll', matchFabToSwap, {passive:true});
+    window.addEventListener('resize',matchFabToSwap,{passive:true})
+    window.addEventListener('scroll',matchFabToSwap,{passive:true})
+    matchFabToSwap()
+
+    function balanceHeadline(){
+      const keepW=keep.offsetWidth
+      const simpleW=simple.offsetWidth
+      if(keepW>0&&simpleW>0){
+        const base=parseFloat(getComputedStyle(simple).fontSize)
+        const ratio=Math.min(1.35, keepW/simpleW)
+        simple.style.fontSize=(base*ratio)+'px'
+      }
     }
+    window.addEventListener('load',balanceHeadline)
+    window.addEventListener('resize',()=>{simple.style.fontSize='';requestAnimationFrame(balanceHeadline)})
+    if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{simple.style.fontSize='';balanceHeadline()})}
+
+    const txCount=document.getElementById('txCount')
+    const summary=document.getElementById('summary')
+    const grossTrx=document.getElementById('grossTrx')
+    const grossKrw=document.getElementById('grossKrw')
+    const priceNote=document.getElementById('priceNote')
+    let trxKrw=0
+
+    function toInt(el){const v=parseInt(el.value,10);return isNaN(v)||v<0?0:v}
+    function comma(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+    function recalc(){
+      const n=toInt(txCount)||1
+      const gross=n*CFG.perUseSave
+      summary.textContent=`${n}회 이용 시`
+      grossTrx.textContent=`${comma(gross)} TRX 절약`
+      if(trxKrw>0){grossKrw.textContent=`₩${comma(Math.round(gross*trxKrw))} 절약`}
+    }
+    txCount.addEventListener('input',recalc,{passive:true})
+    txCount.addEventListener('change',recalc)
+    recalc()
+
+    function loadCachedPrice(){
+      try{
+        const raw=localStorage.getItem(CFG.priceKey)
+        if(!raw) return null
+        const {v,t}=JSON.parse(raw)
+        if(Date.now()-t>CFG.priceTTL) return null
+        return Number(v)||null
+      }catch{return null}
+    }
+    function saveCachedPrice(v){
+      try{localStorage.setItem(CFG.priceKey,JSON.stringify({v,t:Date.now()}))}catch{}
+    }
+    trxKrw=loadCachedPrice()||0
+    if(trxKrw>0){priceNote.textContent=`오늘 시세 1 TRX ≈ ₩${comma(Math.round(trxKrw))}`;recalc()}
+    if(!trxKrw){
+      fetch('https://api.coingecko.com/api/v3/simple/price?ids=tron&vs_currencies=krw')
+        .then(r=>r.json())
+        .then(d=>{
+          trxKrw=d&&d.tron&&d.tron.krw?Number(d.tron.krw):0
+          if(trxKrw>0){saveCachedPrice(trxKrw);priceNote.textContent=`오늘 시세 1 TRX ≈ ₩${comma(Math.round(trxKrw))}`;recalc()}
+          else{priceNote.textContent='시세 로드 실패'}
+        })
+        .catch(()=>{priceNote.textContent='시세 로드 실패'})
+    }
+
+    function focusFirst(){
+      const f=Array.from(fab.querySelectorAll('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.disabled && el.offsetParent!==null)
+      if(f.length>0) f[0].focus()
+    }
+    function trapFocus(e){
+      if(fab.getAttribute('data-open')!=='1') return
+      if(e.key!=='Tab') return
+      const f=Array.from(fab.querySelectorAll('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.disabled && el.offsetParent!==null)
+      if(f.length===0) return
+      const first=f[0], last=f[f.length-1]
+      if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus()}
+      else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus()}
+    }
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape' && fab.getAttribute('data-open')==='1'){hideFab()}
+      trapFocus(e)
+    })
+
+    btn?.addEventListener('click',e=>{e.stopPropagation();const open=menu.classList.toggle('open');btn.setAttribute('aria-expanded',open)})
+    document.addEventListener('click',()=>{menu.classList.remove('open');btn?.setAttribute('aria-expanded','false')})
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'){menu.classList.remove('open');btn?.setAttribute('aria-expanded','false')}})
   </script>
 </body>
 </html>
