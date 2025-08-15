@@ -21,7 +21,6 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{margin:0;font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:radial-gradient(880px 380px at 70% -10%, color-mix(in oklab, #8b5cf6 28%, transparent), transparent 60%),linear-gradient(180deg, var(--bg-start), var(--bg-end));overflow-x:hidden}
-    .no-scroll{overflow:hidden;position:fixed;width:100%}
     .grid3d{position:fixed;inset:0;z-index:-1;pointer-events:none}
     .grid3d::before{content:"";position:absolute;left:50%;bottom:-12vh;width:140vmax;height:120vmax;transform:translateX(-50%) perspective(900px) rotateX(62deg);background:radial-gradient(ellipse at center, rgba(139,92,246,.35) 0 120px, transparent 320px),repeating-linear-gradient(to right, rgba(255,255,255,.08) 0 1px, transparent 1px 64px),repeating-linear-gradient(to bottom, rgba(255,255,255,.08) 0 1px, transparent 1px 64px);filter:drop-shadow(0 40px 120px rgba(139,92,246,.28));mask-image:linear-gradient(to top, rgba(9,6,28,.6), transparent 60%)}
     header{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px) saturate(1.2);background:linear-gradient(to bottom, rgba(16,12,36,.55), rgba(16,12,36,0));border-bottom:1px solid rgba(255,255,255,.06)}
@@ -76,7 +75,11 @@
     .result .num{font-size:28px;font-weight:900;margin:4px 0}
     .result .krw{font-size:18px;font-weight:900}
     .price-note{margin-top:6px;font-size:11px;color:#bfb5d9;text-align:right}
-    @media (max-width:520px){.swap-crop{height:60dvh}.energy-fab{padding:10px 14px}.btn-sec,.btn-prim{height:42px;font-size:14px}}
+    @media (max-width:520px){
+      .swap-crop{height:700px}
+      .energy-fab{padding:10px 14px}
+      .btn-sec,.btn-prim{height:42px;font-size:14px}
+    }
     @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}.energy-fab{transition:none}.fab-panel{transition:none}}
     footer{color:#a8a0c7;font-size:12px;text-align:center;padding:18px 12px;border-top:1px solid rgba(255,255,255,.06)}
   </style>
@@ -241,12 +244,8 @@
     const btn=document.getElementById('moreBtn')
     const menu=document.getElementById('moreMenu')
 
-    let scrollLockY=0
-    function lockScroll(){scrollLockY=window.scrollY;document.body.classList.add('no-scroll');document.body.style.top=`-${scrollLockY}px`}
-    function unlockScroll(){document.body.classList.remove('no-scroll');document.body.style.top='';window.scrollTo(0,scrollLockY)}
-
-    function showFab(){fab.setAttribute('data-open','1');matchFabToSwap();lockScroll();focusFirst()}
-    function hideFab(){fab.setAttribute('data-open','0');unlockScroll()}
+    function showFab(){fab.setAttribute('data-open','1');matchFabToSwap();focusFirst()}
+    function hideFab(){fab.setAttribute('data-open','0')}
 
     const seen=localStorage.getItem(CFG.seenKey)==='1'
     if(!seen){showFab();localStorage.setItem(CFG.seenKey,'1')}
@@ -308,8 +307,8 @@
       const n=toInt(txCount)||1
       const gross=n*CFG.perUseSave
       summary.textContent=`${n}회 이용 시`
-      grossTrx.textContent=`${comma(gross)} TRX 절약`
-      if(trxKrw>0){grossKrw.textContent=`₩${comma(Math.round(gross*trxKrw))} 절약`}
+      grossTrx.textContent=`약 ${comma(gross)} TRX 절약`
+      if(trxKrw>0){grossKrw.textContent=`약 ₩${comma(Math.round(gross*trxKrw))} 절약`}
     }
     txCount.addEventListener('input',recalc,{passive:true})
     txCount.addEventListener('change',recalc)
@@ -356,6 +355,14 @@
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape' && fab.getAttribute('data-open')==='1'){hideFab()}
       trapFocus(e)
+    })
+
+    document.addEventListener('click',e=>{
+      const isOpen=fab.getAttribute('data-open')==='1'
+      if(!isOpen) return
+      const insideFab=fab.contains(e.target)
+      const insideTrigger=trigger.contains(e.target)
+      if(!insideFab && !insideTrigger){hideFab()}
     })
 
     btn?.addEventListener('click',e=>{e.stopPropagation();const open=menu.classList.toggle('open');btn.setAttribute('aria-expanded',open)})
