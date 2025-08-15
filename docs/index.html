@@ -11,11 +11,12 @@
   <meta property="og:type" content="website">
   <meta property="og:image" content="/og-image.png">
   <meta name="theme-color" content="#120f2e">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src https://api.coingecko.com https://min-api.cryptocompare.com; frame-src https://swap.coinkeeper.pro;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline'; connect-src 'self' https://www.coinkeeper.pro https://api.coingecko.com https://min-api.cryptocompare.com; frame-src https://swap.coinkeeper.pro;">
   <link rel="dns-prefetch" href="//api.coingecko.com">
   <link rel="preconnect" href="https://api.coingecko.com" crossorigin>
   <link rel="preconnect" href="https://min-api.cryptocompare.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://swap.coinkeeper.pro" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
   <style>
@@ -239,7 +240,7 @@
   </footer>
 
   <script>
-    const CFG={seenKey:'ck_fab_seen_v12',perUseSave:11,priceKey:'ck_trx_krw_v1',priceTTL:3600*1000}
+    const CFG={seenKey:'ck_fab_seen_v12',perUseSave:11,priceKey:'ck_trx_krw_v1',priceTTL:3600*1000,timeoutMs:5000}
     document.getElementById('y').textContent=new Date().getFullYear()
     const fab=document.getElementById('energyFab')
     const trigger=document.getElementById('fabTrigger')
@@ -350,15 +351,23 @@
       else{priceNote.textContent='시세 로드 실패'}
     }
 
+    function withTimeout(promise,ms){
+      const ctl=new AbortController()
+      const t=setTimeout(()=>ctl.abort(),ms)
+      return {run:(url)=>fetch(url,{signal:ctl.signal}).finally(()=>clearTimeout(t))}
+    }
+
     function fetchPrimary(){
-      return fetch('https://api.coingecko.com/api/v3/simple/price?ids=tron&vs_currencies=krw').then(r=>r.json()).then(d=>{
+      const f=withTimeout(null,CFG.timeoutMs)
+      return f.run('https://api.coingecko.com/api/v3/simple/price?ids=tron&vs_currencies=krw').then(r=>r.ok?r.json():Promise.reject()).then(d=>{
         const v=d&&d.tron&&d.tron.krw?Number(d.tron.krw):0
         if(v>0){trxKrw=v;saveCachedPrice(trxKrw);setPriceNote();recalc();return true}
         return false
       })
     }
     function fetchFallback(){
-      return fetch('https://min-api.cryptocompare.com/data/price?fsym=TRX&tsyms=KRW').then(r=>r.json()).then(d=>{
+      const f=withTimeout(null,CFG.timeoutMs)
+      return f.run('https://min-api.cryptocompare.com/data/price?fsym=TRX&tsyms=KRW').then(r=>r.ok?r.json():Promise.reject()).then(d=>{
         const v=d&&d.KRW?Number(d.KRW):0
         if(v>0){trxKrw=v;saveCachedPrice(trxKrw);setPriceNote();recalc();return true}
         return false
@@ -407,10 +416,10 @@
         if(first) first.focus()
       }
     })
-    document.addEventListener('click',()=>{menu.classList.remove('open');btn?.setAttribute('aria-expanded','false')})
+    document.addEventListener('click',()=>{menu?.classList.remove('open');btn?.setAttribute('aria-expanded','false')})
     document.addEventListener('keydown',e=>{
-      if(e.key==='Escape'){menu.classList.remove('open');btn?.setAttribute('aria-expanded','false')}
-      if(!menu.classList.contains('open')) return
+      if(e.key==='Escape'){menu?.classList.remove('open');btn?.setAttribute('aria-expanded','false')}
+      if(!menu||!menu.classList.contains('open')) return
       const items=[...menu.querySelectorAll('a')]
       const i=items.indexOf(document.activeElement)
       if(e.key==='ArrowDown'){e.preventDefault();items[(i+1+items.length)%items.length]?.focus()}
