@@ -4,15 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>CoinKeeper | 쉽고 빠른 코인 교환</title>
+  <link rel="canonical" href="https://coinkeeper.pro/">
   <meta name="description" content="복잡한 절차 없이, 누구나 쉽고 빠르게 바로 스왑. 트론 에너지 임대 계산기로 절약금액을 확인하세요.">
   <meta property="og:title" content="CoinKeeper | 쉽고 빠른 코인 교환">
   <meta property="og:description" content="누구나 간편하게 바로 스왑 · 트론 에너지 임대">
   <meta property="og:type" content="website">
   <meta property="og:image" content="/og-image.png">
   <meta name="theme-color" content="#120f2e">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src https://api.coingecko.com; frame-src https://swap.coinkeeper.pro;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src https://api.coingecko.com https://min-api.cryptocompare.com; frame-src https://swap.coinkeeper.pro;">
   <link rel="dns-prefetch" href="//api.coingecko.com">
   <link rel="preconnect" href="https://api.coingecko.com" crossorigin>
+  <link rel="preconnect" href="https://min-api.cryptocompare.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
@@ -52,7 +54,7 @@
     .swap-crop{position:relative;width:100%;height:clamp(520px,72dvh,680px);border-radius:18px;overflow:hidden;box-shadow:0 24px 80px rgba(20,10,60,.45);z-index:0}
     .fab-trigger{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom) + 12px);width:56px;height:56px;border-radius:999px;background:linear-gradient(135deg,var(--btn),var(--btn-2));color:#fff;border:1px solid rgba(255,255,255,.18);box-shadow:0 12px 32px rgba(20,10,60,.6);display:flex;align-items:center;justify-content:center;z-index:5001;transition:transform .12s ease}
     .fab-trigger:active{transform:scale(.96)}
-    .energy-fab{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 12px);width:calc(100% - 24px);margin:0 auto;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 22%),linear-gradient(180deg, rgba(20,10,40,.95), rgba(14,7,30,.92));padding:12px 16px;box-shadow:0 20px 60px rgba(20,10,60,.55);backdrop-filter:blur(10px) saturate(1.2);overflow:hidden;z-index:5002;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .24s ease, transform .28s cubic-bezier(.2,.8,.2,1)}
+    .energy-fab{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 12px);width:calc(100% - 24px);margin:0 auto;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 22%),linear-gradient(180deg, rgba(20,10,40,.95), rgba(14,7,30,.92));padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom));box-shadow:0 20px 60px rgba(20,10,60,.55);backdrop-filter:blur(10px) saturate(1.2);overflow:hidden;z-index:5002;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .24s ease, transform .28s cubic-bezier(.2,.8,.2,1)}
     .energy-fab[data-open="1"]{opacity:1;transform:translateY(0);pointer-events:auto}
     .fab-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
     .fab-title{font-weight:900;font-size:20px}
@@ -76,13 +78,19 @@
     .result .krw{font-size:18px;font-weight:900}
     .price-note{margin-top:6px;font-size:11px;color:#bfb5d9;text-align:right}
     @media (max-width:520px){
-      .swap-crop{height:700px}
-      .energy-fab{padding:10px 14px}
+      .swap-crop{height:min(820px,calc(100vh - 140px))}
+      .energy-fab{padding:10px 14px;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
       .btn-sec,.btn-prim{height:42px;font-size:14px}
+      @supports (height:100dvh){
+        .swap-crop{height:min(820px,calc(100dvh - 140px))}
+      }
     }
     @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}.energy-fab{transition:none}.fab-panel{transition:none}}
     footer{color:#a8a0c7;font-size:12px;text-align:center;padding:18px 12px;border-top:1px solid rgba(255,255,255,.06)}
   </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"CoinKeeper","url":"https://coinkeeper.pro/","logo":"https://coinkeeper.pro/logo.png"}
+  </script>
 </head>
 <body>
   <div class="grid3d"></div>
@@ -168,11 +176,11 @@
     </svg>
   </button>
 
-  <div class="energy-fab" id="energyFab" data-open="0" aria-live="polite" role="dialog" aria-modal="true" aria-labelledby="fabTitle" aria-describedby="fabDesc">
+  <div class="energy-fab" id="energyFab" data-open="0" aria-live="polite" role="dialog" aria-labelledby="fabTitle" aria-describedby="fabDesc">
     <div class="fab-row">
       <div>
         <div class="fab-title" id="fabTitle">트론 에너지 임대 서비스</div>
-        <div class="fab-desc" id="fabDesc"><strong>USDT-TRC20</strong> 전송수수료를 에너지로 절약하세요</div>
+        <div class="fab-desc" id="fabDesc"><strong>USDT-TRC20</strong> 전송수수료를 절약하세요</div>
       </div>
       <button class="close" id="fabClose" aria-label="닫기">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
@@ -180,14 +188,15 @@
     </div>
 
     <div class="fab-actions">
-      <button class="btn-sec" id="openCalc">
+      <button class="btn-sec" id="openCalc" aria-controls="fabPanel" aria-expanded="false">
         <svg width="18" height="18" viewBox="0 0 24 24">
           <defs>
             <linearGradient id="btnGrad1" x1="0" x2="1" y1="0" y2="1">
               <stop offset="0%" stop-color="#bca7ff"/><stop offset="100%" stop-color="#7c3aed"/>
             </linearGradient>
           </defs>
-        <path d="M3 12h12m-6-6l6 6-6 6" fill="none" stroke="url(#btnGrad1)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <path d="M3 12h12m-6-6l6 6-6 6" fill="none" stroke="url(#btnGrad1)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
         절약금액 확인
       </button>
       <a class="btn-prim" href="https://t.me/RENT_FOR_TRX_BOT" target="_blank" rel="noopener">
@@ -197,7 +206,8 @@
               <stop offset="0%" stop-color="#efeaff"/><stop offset="100%" stop-color="#bca7ff"/>
             </linearGradient>
           </defs>
-        <path d="M7 12h10M13 6l4 6-4 6" fill="none" stroke="url(#btnGrad2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <path d="M7 12h10M13 6l4 6-4 6" fill="none" stroke="url(#btnGrad2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
         이용하러 가기
       </a>
     </div>
@@ -217,8 +227,8 @@
       </div>
       <div class="result">
         <div class="sum" id="summary">1회 이용 시</div>
-        <div class="num" id="grossTrx">11 TRX 절약</div>
-        <div class="krw" id="grossKrw">₩0 절약</div>
+        <div class="num" id="grossTrx">약 11 TRX 절약</div>
+        <div class="krw" id="grossKrw">약 ₩0 절약</div>
       </div>
       <div class="price-note" id="priceNote">시세 불러오는 중…</div>
     </div>
@@ -229,7 +239,7 @@
   </footer>
 
   <script>
-    const CFG={seenKey:'ck_fab_seen_v11',perUseSave:11,priceKey:'ck_trx_krw_v1',priceTTL:3600*1000}
+    const CFG={seenKey:'ck_fab_seen_v12',perUseSave:11,priceKey:'ck_trx_krw_v1',priceTTL:3600*1000}
     document.getElementById('y').textContent=new Date().getFullYear()
     const fab=document.getElementById('energyFab')
     const trigger=document.getElementById('fabTrigger')
@@ -244,16 +254,16 @@
     const btn=document.getElementById('moreBtn')
     const menu=document.getElementById('moreMenu')
 
-    function showFab(){fab.setAttribute('data-open','1');matchFabToSwap();focusFirst()}
-    function hideFab(){fab.setAttribute('data-open','0')}
+    function showFab(){fab.setAttribute('data-open','1');document.body.setAttribute('data-fab-open','1');matchFabToSwap();focusFirst()}
+    function hideFab(){fab.setAttribute('data-open','0');document.body.removeAttribute('data-fab-open');trigger.focus()}
 
     const seen=localStorage.getItem(CFG.seenKey)==='1'
     if(!seen){showFab();localStorage.setItem(CFG.seenKey,'1')}
     trigger.addEventListener('click',showFab)
     closeBtn.addEventListener('click',hideFab)
 
-    openCalcBtn.addEventListener('click',()=>{panel.setAttribute('data-open','1')})
-    panelClose.addEventListener('click',()=>{panel.setAttribute('data-open','0')})
+    openCalcBtn.addEventListener('click',()=>{panel.setAttribute('data-open','1');openCalcBtn.setAttribute('aria-expanded','true')})
+    panelClose.addEventListener('click',()=>{panel.setAttribute('data-open','0');openCalcBtn.setAttribute('aria-expanded','false');openCalcBtn.focus()})
 
     function matchFabToSwap(){
       const mq=window.matchMedia('(min-width: 840px)')
@@ -277,9 +287,15 @@
         fab.style.paddingBottom=''
       }
     }
-    window.addEventListener('resize',matchFabToSwap,{passive:true})
-    window.addEventListener('scroll',matchFabToSwap,{passive:true})
+
+    let rafId=0
+    function onScrollResize(){if(rafId) return;rafId=requestAnimationFrame(()=>{matchFabToSwap();rafId=0})}
+    window.addEventListener('resize',onScrollResize,{passive:true})
+    window.addEventListener('scroll',onScrollResize,{passive:true})
     matchFabToSwap()
+    const ro=new ResizeObserver(()=>matchFabToSwap())
+    if(swapWrap) ro.observe(swapWrap)
+    if(swapCrop) ro.observe(swapCrop)
 
     function balanceHeadline(){
       const keepW=keep.offsetWidth
@@ -299,16 +315,17 @@
     const grossTrx=document.getElementById('grossTrx')
     const grossKrw=document.getElementById('grossKrw')
     const priceNote=document.getElementById('priceNote')
+    const fmt=new Intl.NumberFormat('ko-KR')
+    const krwFmt=new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0})
     let trxKrw=0
 
     function toInt(el){const v=parseInt(el.value,10);return isNaN(v)||v<0?0:v}
-    function comma(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')}
     function recalc(){
       const n=toInt(txCount)||1
       const gross=n*CFG.perUseSave
       summary.textContent=`${n}회 이용 시`
-      grossTrx.textContent=`약 ${comma(gross)} TRX 절약`
-      if(trxKrw>0){grossKrw.textContent=`약 ₩${comma(Math.round(gross*trxKrw))} 절약`}
+      grossTrx.textContent=`약 ${fmt.format(gross)} TRX 절약`
+      if(trxKrw>0){grossKrw.textContent=`약 ${krwFmt.format(Math.round(gross*trxKrw))} 절약`}
     }
     txCount.addEventListener('input',recalc,{passive:true})
     txCount.addEventListener('change',recalc)
@@ -326,17 +343,32 @@
     function saveCachedPrice(v){
       try{localStorage.setItem(CFG.priceKey,JSON.stringify({v,t:Date.now()}))}catch{}
     }
+    function hhmm(d){const h=String(d.getHours()).padStart(2,'0');const m=String(d.getMinutes()).padStart(2,'0');return `${h}:${m}`}
+
+    function setPriceNote(){
+      if(trxKrw>0){priceNote.textContent=`오늘 시세 1 TRX ≈ ${krwFmt.format(trxKrw)} · 업데이트 ${hhmm(new Date())}`}
+      else{priceNote.textContent='시세 로드 실패'}
+    }
+
+    function fetchPrimary(){
+      return fetch('https://api.coingecko.com/api/v3/simple/price?ids=tron&vs_currencies=krw').then(r=>r.json()).then(d=>{
+        const v=d&&d.tron&&d.tron.krw?Number(d.tron.krw):0
+        if(v>0){trxKrw=v;saveCachedPrice(trxKrw);setPriceNote();recalc();return true}
+        return false
+      })
+    }
+    function fetchFallback(){
+      return fetch('https://min-api.cryptocompare.com/data/price?fsym=TRX&tsyms=KRW').then(r=>r.json()).then(d=>{
+        const v=d&&d.KRW?Number(d.KRW):0
+        if(v>0){trxKrw=v;saveCachedPrice(trxKrw);setPriceNote();recalc();return true}
+        return false
+      })
+    }
+
     trxKrw=loadCachedPrice()||0
-    if(trxKrw>0){priceNote.textContent=`오늘 시세 1 TRX ≈ ₩${comma(Math.round(trxKrw))}`;recalc()}
-    if(!trxKrw){
-      fetch('https://api.coingecko.com/api/v3/simple/price?ids=tron&vs_currencies=krw')
-        .then(r=>r.json())
-        .then(d=>{
-          trxKrw=d&&d.tron&&d.tron.krw?Number(d.tron.krw):0
-          if(trxKrw>0){saveCachedPrice(trxKrw);priceNote.textContent=`오늘 시세 1 TRX ≈ ₩${comma(Math.round(trxKrw))}`;recalc()}
-          else{priceNote.textContent='시세 로드 실패'}
-        })
-        .catch(()=>{priceNote.textContent='시세 로드 실패'})
+    if(trxKrw>0){setPriceNote();recalc()}
+    else{
+      fetchPrimary().catch(()=>false).then(ok=>{if(!ok) return fetchFallback()}).catch(()=>{}).finally(()=>{if(!trxKrw) setPriceNote()})
     }
 
     function focusFirst(){
@@ -360,14 +392,32 @@
     document.addEventListener('click',e=>{
       const isOpen=fab.getAttribute('data-open')==='1'
       if(!isOpen) return
+      if(menu && menu.classList.contains('open')) return
       const insideFab=fab.contains(e.target)
       const insideTrigger=trigger.contains(e.target)
       if(!insideFab && !insideTrigger){hideFab()}
     })
 
-    btn?.addEventListener('click',e=>{e.stopPropagation();const open=menu.classList.toggle('open');btn.setAttribute('aria-expanded',open)})
+    btn?.addEventListener('click',e=>{
+      e.stopPropagation()
+      const open=menu.classList.toggle('open')
+      btn.setAttribute('aria-expanded',open)
+      if(open){
+        const first=menu.querySelector('a')
+        if(first) first.focus()
+      }
+    })
     document.addEventListener('click',()=>{menu.classList.remove('open');btn?.setAttribute('aria-expanded','false')})
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'){menu.classList.remove('open');btn?.setAttribute('aria-expanded','false')}})
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){menu.classList.remove('open');btn?.setAttribute('aria-expanded','false')}
+      if(!menu.classList.contains('open')) return
+      const items=[...menu.querySelectorAll('a')]
+      const i=items.indexOf(document.activeElement)
+      if(e.key==='ArrowDown'){e.preventDefault();items[(i+1+items.length)%items.length]?.focus()}
+      if(e.key==='ArrowUp'){e.preventDefault();items[(i-1+items.length)%items.length]?.focus()}
+      if(e.key==='Home'){e.preventDefault();items[0]?.focus()}
+      if(e.key==='End'){e.preventDefault();items[items.length-1]?.focus()}
+    })
   </script>
 </body>
 </html>
