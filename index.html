@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>CoinKeeper | 쉽고 빠른 코인 교환</title>
+  <link rel="canonical" href="https://coinkeeper.pro/">
+  <meta name="description" content="복잡한 절차 없이, 누구나 쉽고 빠르게 바로 스왑. 트론 에너지 임대 계산기로 절약금액을 확인하세요.">
+  <meta property="og:title" content="CoinKeeper | 쉽고 빠른 코인 교환">
+  <meta property="og:description" content="누구나 간편하게 바로 스왑 · 트론 에너지 임대">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/og-image.png">
+  <meta name="theme-color" content="#120f2e">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-ancestors 'none'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline'; connect-src 'self' https://www.coinkeeper.pro https://api.coingecko.com https://min-api.cryptocompare.com;">
+  <link rel="dns-prefetch" href="//api.coingecko.com">
+  <link rel="preconnect" href="https://api.coingecko.com" crossorigin>
+  <link rel="preconnect" href="https://min-api.cryptocompare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://pegasusswap.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap" media="print" onload="this.media='all'">
+  <style>
+    :root{--bg-start:#0b0820;--bg-end:#120f2e;--text:#efeaff;--muted:#cbbfe3;--btn:#7c3aed;--btn-2:#a879ff;--btn-text:#fff}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--text);background:radial-gradient(880px 380px at 70% -10%, color-mix(in oklab, #8b5cf6 28%, transparent), transparent 60%),linear-gradient(180deg, var(--bg-start), var(--bg-end));overflow-x:hidden}
+    .grid3d{position:fixed;inset:0;z-index:-1;pointer-events:none}
+    .grid3d::before{content:"";position:absolute;left:50%;bottom:-12vh;width:140vmax;height:120vmax;transform:translateX(-50%) perspective(900px) rotateX(62deg);background:radial-gradient(ellipse at center, rgba(139,92,246,.35) 0 120px, transparent 320px),repeating-linear-gradient(to right, rgba(255,255,255,.08) 0 1px, transparent 1px 64px),repeating-linear-gradient(to bottom, rgba(255,255,255,.08) 0 1px, transparent 1px 64px);filter:drop-shadow(0 40px 120px rgba(139,92,246,.28));mask-image:linear-gradient(to top, rgba(9,6,28,.6), transparent 60%)}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px) saturate(1.2);background:linear-gradient(to bottom, rgba(16,12,36,.55), rgba(16,12,36,0));border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:8px;padding:12px 16px}
+    .brand{font-weight:800;font-size:22px;letter-spacing:.2px;line-height:1;background:linear-gradient(90deg,#efeaff,#bca7ff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 12px rgba(139,92,246,.35));min-width:0}
+    .actions{margin-left:auto;display:grid;grid-auto-flow:column;grid-auto-columns:max-content;gap:8px;align-items:center;white-space:nowrap}
+    .btn-top{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 14px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;background:var(--btn);color:var(--btn-text)}
+    .more{position:relative}
+    .more-btn{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:10px;font-weight:700;font-size:13px;background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.12);cursor:pointer;white-space:nowrap}
+    .chev{width:14px;height:14px;display:inline-block;transform:translateY(1px)}
+    .menu{position:absolute;right:0;top:44px;min-width:240px;background:#120e25;border:1px solid rgba(199,168,255,.35);border-radius:12px;box-shadow:0 18px 50px rgba(12,6,26,.65);padding:8px;display:none}
+    .menu.open{display:block}
+    .menu a{display:flex;align-items:center;gap:10px;text-decoration:none;color:#ffffff;padding:10px 12px;border-radius:8px;font-weight:700;font-size:14px}
+    .menu a:hover{background:#271b4b}
+    main{display:grid;place-items:center;padding:28px 12px 48px}
+    .wrap{width:100%;max-width:1120px}
+    .hero{text-align:center}
+    .headline{margin:18px 0 0;letter-spacing:.02em;font-weight:900;font-size:clamp(56px,11vw,168px);line-height:.96;text-transform:uppercase;filter:drop-shadow(0 8px 22px rgba(139,92,246,.28))}
+    .headline .keep{display:block;color:#fff}
+    .headline .simple{display:block;background:linear-gradient(90deg,#cbb4ff 0%,#b48cff 46%,#a879ff 70%,#cbb4ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .headline-line{width:80px;height:3px;margin:16px auto 14px;border-radius:2px;background:linear-gradient(90deg,#bca7ff,#a879ff)}
+    .sub{margin:12px 0 26px;font-size:18px;color:#bfb5d9;line-height:1.5}
+    .trust{display:grid;grid-template-columns:repeat(3,auto);justify-content:center;gap:12px;margin:0 auto 18px}
+    .badge{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(199,168,255,.22);font-size:14px;color:#d8d2ef;white-space:nowrap;transition:all .28s ease}
+    .badge:hover{background:rgba(199,168,255,.12);box-shadow:0 0 12px rgba(172,126,255,.45);transform:translateY(-3px)}
+    .ic{width:18px;height:18px;flex:0 0 18px}
+    .ic-bolt{filter:drop-shadow(0 0 8px rgba(168,121,255,.45))}
+    .swap-wrap{width:min(100%,560px);margin:8px auto 0}
+    .swap-crop{position:relative;width:100%;height:clamp(520px,72dvh,680px);border-radius:18px;overflow:hidden;box-shadow:0 24px 80px rgba(20,10,60,.45);z-index:0;display:grid;place-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(199,168,255,.18)}
+    .swap-cta{display:grid;gap:14px;justify-items:center;text-align:center;padding:24px}
+    .swap-cta-title{font-weight:900;font-size:20px}
+    .swap-cta-desc{font-weight:700;font-size:13px;color:#dcd4ff}
+    .open-widget{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 18px;border-radius:12px;background:linear-gradient(90deg,var(--btn),var(--btn-2));color:#fff;font-weight:900;text-decoration:none;border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 28px rgba(139,92,246,.35)}
+    .fab-trigger{position:fixed;right:12px;bottom:calc(env(safe-area-inset-bottom) + 12px);width:56px;height:56px;border-radius:999px;background:linear-gradient(135deg,var(--btn),var(--btn-2));color:#fff;border:1px solid rgba(255,255,255,.18);box-shadow:0 12px 32px rgba(20,10,60,.6);display:flex;align-items:center;justify-content:center;z-index:5001;transition:transform .12s ease}
+    .fab-trigger:active{transform:scale(.96)}
+    .energy-fab{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 12px);width:calc(100% - 24px);margin:0 auto;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 22%),linear-gradient(180deg, rgba(20,10,40,.95), rgba(14,7,30,.92));padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom));box-shadow:0 20px 60px rgba(20,10,60,.55);backdrop-filter:blur(10px) saturate(1.2);overflow:hidden;z-index:5002;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .24s ease, transform .28s cubic-bezier(.2,.8,.2,1)}
+    .energy-fab[data-open="1"]{opacity:1;transform:translateY(0);pointer-events:auto}
+    .fab-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .fab-title{font-weight:900;font-size:20px}
+    .fab-desc{font-weight:700;font-size:13px;color:#dcd4ff;margin-top:4px}
+    .close{width:32px;height:32px;border:none;border-radius:999px;background:rgba(255,255,255,.06);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .fab-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    .btn-sec,.btn-prim{display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border-radius:12px;font-weight:900;font-size:15px;text-decoration:none;cursor:pointer}
+    .btn-sec{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(199,168,255,.25)}
+    .btn-prim{background:linear-gradient(90deg,var(--btn),var(--btn-2));color:#fff;box-shadow:0 12px 28px rgba(139,92,246,.35)}
+    .fab-panel{margin-top:12px;background:rgba(10,7,26,.55);border:1px solid rgba(199,168,255,.18);border-radius:14px;padding:12px;transform:translateY(12px);opacity:0;max-height:0;pointer-events:none;transition:max-height .32s ease,opacity .24s ease,transform .32s ease}
+    .fab-panel[data-open="1"]{transform:translateY(0);opacity:1;max-height:360px;pointer-events:auto}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .panel-title{font-weight:800;font-size:15px}
+    .panel-close{width:28px;height:28px;border:none;border-radius:999px;background:rgba(255,255,255,.06);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .calc{display:grid;gap:10px}
+    .calc label{font-size:12px;color:#cfc6e6;display:block;margin-bottom:4px}
+    .calc input{width:100%;height:42px;border-radius:12px;border:1px solid rgba(199,168,255,.28);background:rgba(255,255,255,.06);color:#fff;padding:0 12px;font-weight:800;font-size:16px}
+    .result{margin-top:8px;padding:16px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(199,168,255,.22);text-align:center}
+    .result .sum{font-size:18px;font-weight:900}
+    .result .num{font-size:28px;font-weight:900;margin:4px 0}
+    .result .krw{font-size:18px;font-weight:900}
+    .price-note{margin-top:6px;font-size:11px;color:#bfb5d9;text-align:right}
+    @media (max-width:520px){
+      .swap-crop{height:min(820px,calc(100vh - 140px))}
+      .energy-fab{padding:10px 14px;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+      .btn-sec,.btn-prim{height:42px;font-size:14px}
+      @supports (height:100dvh){
+        .swap-crop{height:min(820px,calc(100dvh - 140px))}
+      }
+    }
+    @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}.energy-fab{transition:none}.fab-panel{transition:none}}
+    footer{color:#a8a0c7;font-size:12px;text-align:center;padding:18px 12px;border-top:1px solid rgba(255,255,255,.06)}
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"CoinKeeper","url":"https://coinkeeper.pro/","logo":"https://coinkeeper.pro/logo.png"}
+  </script>
+</head>
+<body>
+  <div class="grid3d"></div>
+  <header>
+    <div class="nav">
+      <div class="brand">CoinKeeper</div>
+      <div class="actions">
+        <div class="more">
+          <button class="more-btn" id="moreBtn" aria-haspopup="true" aria-expanded="false">
+            추가 서비스
+            <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="#d9cff9" stroke-width="2.4" stroke-linecap="round"/></svg>
+          </button>
+          <div class="menu" id="moreMenu" role="menu" aria-label="추가 제공 서비스">
+            <a href="https://t.me/rent_for_trx_ch/26" target="_blank" rel="noopener" role="menuitem">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M13 2L6 14h6l-1 8 7-12h-6l1-8z" fill="rgba(139,92,246,.85)"/></svg>
+              트론 에너지 임대 서비스
+            </a>
+            <a href="https://t.me/rent_for_trx_ch/30" target="_blank" rel="noopener" role="menuitem">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9.5 12.5l9-6.5-3.2 12.6c-.1.4-.6.5-.9.3l-4-3-2.1 2c-.3.2-.8.1-.9-.3l.8-3.1 9.5-8.1" stroke="#cbb4ff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              텔레그램 프리미엄 간편 구매
+            </a>
+          </div>
+        </div>
+        <a class="btn-top" href="https://t.me/RENT_FOR_TRX" target="_blank" rel="noopener">고객센터</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero">
+        <h1 class="headline">
+          <span class="keep" id="headlineKeep">KEEP IT</span>
+          <span class="simple" id="headlineSimple">SIMPLE</span>
+        </h1>
+        <div class="headline-line"></div>
+        <p class="sub">복잡한 절차 없이, 누구나 쉽고 빠르게 바로 스왑</p>
+      </section>
+
+      <section class="trust">
+        <div class="badge">
+          <svg class="ic" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="#cbb4ff" stroke-width="1.6"/>
+            <path d="M7 12l3 3 7-7" stroke="#cbb4ff" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+          KYC 없음
+        </div>
+        <div class="badge">
+          <svg class="ic" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2l7 4v6c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-4z" stroke="#cbb4ff" stroke-width="1.6" fill="rgba(139,92,246,.18)"/>
+          </svg>
+          1000+ 코인
+        </div>
+        <div class="badge">
+          <svg class="ic ic-bolt" viewBox="0 0 24 24">
+            <defs>
+              <linearGradient id="boltGrad" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#bca7ff"/><stop offset="100%" stop-color="#7c3aed"/>
+              </linearGradient>
+            </defs>
+            <path d="M13 2l-2 8h5l-5 12 2-8H8l5-12z" fill="url(#boltGrad)"/>
+          </svg>
+          즉시 스왑
+        </div>
+      </section>
+
+      <section class="swap-wrap" id="swapWrap">
+        <div class="swap-crop" id="swapCrop">
+          <div class="swap-cta">
+            <div class="swap-cta-title">새 창에서 스왑 위젯 열기</div>
+            <div class="swap-cta-desc">보안 설정으로 임베드가 차단되어 별도 창에서 실행됩니다.</div>
+            <a class="open-widget" href="https://pegasusswap.com/widget?deposit=USDT&depositNetwork=TRX&receive=TRX&receiveNetwork=TRX&amount=100&isOptional=true&ref=URNNCCO" target="_blank" rel="noopener">스왑 열기</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <button class="fab-trigger" id="fabTrigger" aria-label="에너지 임대 서비스 열기" title="에너지 임대">
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <defs>
+        <linearGradient id="trigGrad" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#efeaff"/><stop offset="100%" stop-color="#bca7ff"/>
+        </linearGradient>
+      </defs>
+      <path d="M13 2L6 14h6l-1 8 7-12h-6l1-8z" fill="url(#trigGrad)"/>
+    </svg>
+  </button>
+
+  <div class="energy-fab" id="energyFab" data-open="0" aria-live="polite" role="dialog" aria-labelledby="fabTitle" aria-describedby="fabDesc">
+    <div class="fab-row">
+      <div>
+        <div class="fab-title" id="fabTitle">트론 에너지 임대 서비스</div>
+        <div class="fab-desc" id="fabDesc"><strong>USDT-TRC20</strong> 전송수수료를 절약하세요</div>
+      </div>
+      <button class="close" id="fabClose" aria-label="닫기">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="fab-actions">
+      <button class="btn-sec" id="openCalc" aria-controls="fabPanel" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="btnGrad1" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#bca7ff"/><stop offset="100%" stop-color="#7c3aed"/>
+            </linearGradient>
+          </defs>
+          <path d="M3 12h12m-6-6l6 6-6 6" fill="none" stroke="url(#btnGrad1)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        절약금액 확인
+      </button>
+      <a class="btn-prim" href="https://t.me/rent_for_trx_ch/26" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="btnGrad2" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#efeaff"/><stop offset="100%" stop-color="#bca7ff"/>
+            </linearGradient>
+          </defs>
+          <path d="M7 12h10M13 6l4 6-4 6" fill="none" stroke="url(#btnGrad2)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        이용하러 가기
+      </a>
+    </div>
+
+    <div class="fab-panel" id="fabPanel" data-open="0">
+      <div class="panel-head">
+        <div class="panel-title">에너지 임대 계산기</div>
+        <button class="panel-close" id="panelClose" aria-label="계산기 닫기">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="calc">
+        <div>
+          <label for="txCount">이용 횟수</label>
+          <input id="txCount" type="number" min="1" step="1" value="1" inputmode="numeric">
+        </div>
+      </div>
+      <div class="result">
+        <div class="sum" id="summary">1회 이용 시</div>
+        <div class="num" id="grossTrx">약 11 TRX 절약</div>
+        <div class="krw" id="grossKrw">약 ₩0 절약</div>
+      </div>
+      <div class="price-note" id="priceNote">시세 불러오는 중…</div>
+    </div>
+  </div>
+
+  <footer>
+    © <span id="y"></span> CoinKeeper · 모든 권리 보유 · 안전하고 간편한 코인 스왑 서비스
+  </footer>
+
+  <script>
+    const CFG={seenKey:'ck_fab_seen_v12',perUseSave:11,priceKey:'ck_trx_krw_v1',priceTTL:3600*1000,timeoutMs:5000}
+    document.getElementById('y').textContent=new Date().getFullYear()
+    const fab=document.getElementById('energyFab')
+    const trigger=document.getElementById('fabTrigger')
+    const closeBtn=document.getElementById('fabClose')
+    const openCalcBtn=document.getElementById('openCalc')
+    const panel=document.getElementById('fabPanel')
+    const panelClose=document.getElementById('panelClose')
+    const swapWrap=document.getElementById('swapWrap')
+    const swapCrop=document.getElementById('swapCrop')
+    const keep=document.getElementById('headlineKeep')
+    const simple=document.getElementById('headlineSimple')
+    const btn=document.getElementById('moreBtn')
+    const menu=document.getElementById('moreMenu')
+
+    function showFab(){fab.setAttribute('data-open','1');document.body.setAttribute('data-fab-open','1');matchFabToSwap();focusFirst()}
+    function hideFab(){fab.setAttribute('data-open','0');document.body.removeAttribute('data-fab-open');trigger.focus()}
+
+    const seen=localStorage.getItem(CFG.seenKey)==='1'
+    if(!seen){showFab();localStorage.setItem(CFG.seenKey,'1')}
+    trigger.addEventListener('click',showFab)
+    closeBtn.addEventListener('click',hideFab)
+
+    openCalcBtn.addEventListener('click',()=>{panel.setAttribute('data-open','1');openCalcBtn.setAttribute('aria-expanded','true')})
+    panelClose.addEventListener('click',()=>{panel.setAttribute('data-open','0');openCalcBtn.setAttribute('aria-expanded','false');openCalcBtn.focus()})
+
+    function matchFabToSwap(){
+      const mq=window.matchMedia('(min-width: 840px)')
+      if(!fab||!swapWrap) return
+      if(mq.matches){
+        const r=(swapCrop||swapWrap).getBoundingClientRect()
+        fab.style.left=Math.round(r.left)+'px'
+        fab.style.right='auto'
+        fab.style.width=Math.round(r.width)+'px'
+        fab.style.maxWidth=Math.round(r.width)+'px'
+        fab.style.margin='0'
+        fab.style.paddingTop='12px'
+        fab.style.paddingBottom='12px'
+      }else{
+        fab.style.left=''
+        fab.style.right=''
+        fab.style.width=''
+        fab.style.maxWidth=''
+        fab.style.margin=''
+        fab.style.paddingTop=''
+        fab.style.paddingBottom=''
+      }
+    }
+
+    let rafId=0
+    function onScrollResize(){if(rafId) return;rafId=requestAnimationFrame(()=>{matchFabToSwap();rafId=0})}
+    window.addEventListener('resize',onScrollResize,{passive:true})
+    window.addEventListener('scroll',onScrollResize,{passive:true})
+    matchFabToSwap()
+    const ro=new ResizeObserver(()=>matchFabToSwap())
+    if(swapWrap) ro.observe(swapWrap)
+    if(swapCrop) ro.observe(swapCrop)
+
+    function balanceHeadline(){
+      const keepW=keep.offsetWidth
+      const simpleW=simple.offsetWidth
+      if(keepW>0&&simpleW>0){
+        const base=parseFloat(getComputedStyle(simple).fontSize)
+        const ratio=Math.min(1.35, keepW/simpleW)
+        simple.style.fontSize=(base*ratio)+'px'
+      }
+    }
+    window.addEventListener('load',balanceHeadline)
+    window.addEventListener('resize',()=>{simple.style.fontSize='';requestAnimationFrame(balanceHeadline)})
+    if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{simple.style.fontSize='';balanceHeadline()})}
+
+    const txCount=document.getElementById('txCount')
+    const summary=document.getElementById('summary')
+    const grossTrx=document.getElementById('grossTrx')
+    const grossKrw=document.getElementById('grossKrw')
+    const priceNote=document.getElementById('priceNote')
+    const fmt=new Intl.NumberFormat('ko-KR')
+    const krwFmt=new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW',maximumFractionDigits:0})
+    let trxKrw=0
+
+    function toInt(el){const v=parseInt(el.value,10);return isNaN(v)||v<0?0:v}
+    function recalc(){
+      const n=toInt(txCount)||1
+      const gross=n*CFG.perUseSave
+      summary.textContent=`${n}회 이용 시`
+      grossTrx.textContent=`약 ${fmt.format(gross)} TRX 절약`
+      if(trxKrw>0){grossKrw.textContent=`약 ${krwFmt.format(Math.round(gross*trxKrw))} 절약`}
+    }
+    txCount.addEventListener('input',recalc,{passive:true})
+    txCount.addEventListener('change',recalc)
+    recalc()
+
+    function loadCachedPrice(){
+      try{
+        const raw=localStorage.getItem(CFG.priceKey)
+        if(!raw) return null
+        const {v,t}=JSON.parse(raw)
+        if(Date.now()-t>CFG.priceTTL) return null
+        return Number(v)||null
+      }catch{return null}
+    }
+    function saveCachedPrice(v){
+      try{localStorage.setItem(CFG.priceKey,JSON.stringify({v,t:Date.now()}))}catch{}
+    }
+    function hhmm(d){const h=String(d.getHours()).padStart(2,'0');const m=String(d.getMinutes()).padStart(2,'0');return `${h}:${m}`}
+
+    function setPriceNote(){
+      if(trxKrw>0){priceNote.textContent=`오늘 시세 1 TRX ≈ ${krwFmt.format(trxKrw)} · 업데이트 ${hhmm(new Date())}`}
+      else{priceNote.textContent='시세 로드 실패'}
+    }
+
+    function withTimeout(promise,ms){
+      const ctl=new AbortController()
+      const t=setTimeout(()=>ctl.abort(),ms)
+      return {run:(url)=>fetch(url,{signal:ctl.signal}).finally(()=>clearTimeout(t))}
+    }
+
+    function fetchPrimary(){
+      const f=withTimeout(null,CFG.timeoutMs)
+      return f.run('https://api.coingecko.com/api/v3/simple/price?ids=tron&vs_currencies=krw').then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+        const v=d&&d.tron&&d.tron.krw?Number(d.tron.krw):0
+        if(v>0){trxKrw=v;saveCachedPrice(trxKrw);setPriceNote();recalc();return true}
+        return false
+      })
+    }
+    function fetchFallback(){
+      const f=withTimeout(null,CFG.timeoutMs)
+      return f.run('https://min-api.cryptocompare.com/data/price?fsym=TRX&tsyms=KRW').then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+        const v=d&&d.KRW?Number(d.KRW):0
+        if(v>0){trxKrw=v;saveCachedPrice(trxKrw);setPriceNote();recalc();return true}
+        return false
+      })
+    }
+
+    trxKrw=loadCachedPrice()||0
+    if(trxKrw>0){setPriceNote();recalc()}
+    else{
+      fetchPrimary().catch(()=>false).then(ok=>{if(!ok) return fetchFallback()}).catch(()=>{}).finally(()=>{if(!trxKrw) setPriceNote()})
+    }
+
+    function focusFirst(){
+      const f=Array.from(fab.querySelectorAll('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.disabled && el.offsetParent!==null)
+      if(f.length>0) f[0].focus()
+    }
+    function trapFocus(e){
+      if(fab.getAttribute('data-open')!=='1') return
+      if(e.key!=='Tab') return
+      const f=Array.from(fab.querySelectorAll('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.disabled && el.offsetParent!==null)
+      if(f.length===0) return
+      const first=f[0], last=f[f.length-1]
+      if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus()}
+      else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus()}
+    }
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape' && fab.getAttribute('data-open')==='1'){hideFab()}
+      trapFocus(e)
+    })
+
+    document.addEventListener('click',e=>{
+      const isOpen=fab.getAttribute('data-open')==='1'
+      if(!isOpen) return
+      if(menu && menu.classList.contains('open')) return
+      const insideFab=fab.contains(e.target)
+      const insideTrigger=trigger.contains(e.target)
+      if(!insideFab && !insideTrigger){hideFab()}
+    })
+
+    btn?.addEventListener('click',e=>{
+      e.stopPropagation()
+      const open=menu.classList.toggle('open')
+      btn.setAttribute('aria-expanded',open)
+      if(open){
+        const first=menu.querySelector('a')
+        if(first) first.focus()
+      }
+    })
+    document.addEventListener('click',()=>{menu?.classList.remove('open');btn?.setAttribute('aria-expanded','false')})
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){menu?.classList.remove('open');btn?.setAttribute('aria-expanded','false')}
+      if(!menu||!menu.classList.contains('open')) return
+      const items=[...menu.querySelectorAll('a')]
+      const i=items.indexOf(document.activeElement)
+      if(e.key==='ArrowDown'){e.preventDefault();items[(i+1+items.length)%items.length]?.focus()}
+      if(e.key==='ArrowUp'){e.preventDefault();items[(i-1+items.length)%items.length]?.focus()}
+      if(e.key==='Home'){e.preventDefault();items[0]?.focus()}
+      if(e.key==='End'){e.preventDefault();items[items.length-1]?.focus()}
+    })
+  </script>
+</body>
+</html>
