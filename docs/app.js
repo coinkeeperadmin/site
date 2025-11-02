@@ -1,4 +1,4 @@
-const root=document.getElementById("coin")
+const root=document.getElementById("root")
 root.innerHTML=`
 <div class="grid3d"></div>
 <header>
